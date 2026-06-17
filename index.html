@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026 UN Secretary-General Race Tracker</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Georgia',serif;color:#2c3e50;background:#fff;font-size:15px}
+header{background:#1a2744;color:#fff;padding:40px 48px 32px;border-bottom:4px solid #009EDB}
+.un-eyebrow{font-family:Arial,sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#009EDB;margin-bottom:10px}
+header h1{font-size:30px;font-weight:normal;line-height:1.25;margin-bottom:10px;max-width:700px}
+header p{font-family:Arial,sans-serif;font-size:13px;color:#aab4c4;max-width:620px;line-height:1.65}
+.meta{margin-top:18px;font-family:Arial,sans-serif;font-size:11px;color:#5a6a80;display:flex;gap:24px;flex-wrap:wrap}
+.meta-dot{width:6px;height:6px;border-radius:50%;background:#009EDB;display:inline-block;margin-right:6px}
+nav.tabs{background:#fff;border-bottom:2px solid #e0e4e8;padding:0 48px;position:sticky;top:0;z-index:100;box-shadow:0 2px 10px rgba(0,0,0,.07)}
+nav.tabs button{background:none;border:none;cursor:pointer;padding:16px 22px;font-family:Arial,sans-serif;font-size:13px;color:#6b7c93;border-bottom:3px solid transparent;margin-bottom:-2px;transition:color .15s,border-color .15s;font-weight:500}
+nav.tabs button.active{color:#009EDB;border-bottom-color:#009EDB;font-weight:700}
+nav.tabs button:hover:not(.active){color:#1B497C;border-bottom-color:#d0dce8}
+.content{max-width:1200px;margin:0 auto;padding:40px 48px}
+.panel{display:none}.panel.active{display:block}
+.section-label{font-family:Arial,sans-serif;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:#009EDB;margin-bottom:6px;font-weight:700}
+h2{font-size:22px;color:#1a2744;font-weight:normal;margin-bottom:6px}
+.subtext{font-family:Arial,sans-serif;font-size:13px;color:#6b7c93;margin-bottom:28px;line-height:1.6}
+hr.div{border:none;border-top:1px solid #e0e4e8;margin:40px 0}
+.note{background:#f5f6f7;border:1px solid #e0e4e8;border-radius:4px;padding:14px 18px;font-family:Arial,sans-serif;font-size:12px;color:#6b7c93;margin-top:28px;line-height:1.65}
+.note strong{color:#555}
+.overview-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:28px}
+.ov-card{border:1px solid #e0e4e8;border-radius:8px;overflow:hidden}
+.ov-photo,.ov-avatar{width:100%;height:auto;display:block}
+.ov-card-header{background:#1a2744;color:#fff;padding:16px 20px;display:flex;align-items:center;gap:14px}
+.ov-flag{font-size:32px;line-height:1}
+.ov-id h3{font-size:18px;font-weight:normal;margin-bottom:3px}
+.ov-id .country{font-family:Arial,sans-serif;font-size:11px;color:#009EDB;text-transform:uppercase;letter-spacing:1.5px}
+.ov-id .role{font-family:Arial,sans-serif;font-size:11px;color:#aab4c4;margin-top:3px;line-height:1.4}
+.ov-body{padding:22px 24px}
+.ov-section{margin-bottom:16px}
+.ov-label{font-family:Arial,sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#6b7c93;margin-bottom:6px;font-weight:700}
+.ov-body p,.ov-body li{font-size:13.5px;line-height:1.7;color:#444}
+.ov-body ul{padding-left:18px}
+.ov-body li{margin-bottom:4px}
+.vision-box{background:#f0f7fb;border-left:3px solid #009EDB;padding:14px 18px;border-radius:0 4px 4px 0;margin-top:4px}
+.vision-box p{font-style:italic;font-size:13.5px;line-height:1.7;color:#1a2744}
+.controversy-box{background:#fff8f0;border-left:3px solid #fd7e14;padding:14px 18px;border-radius:0 4px 4px 0;margin-top:4px}
+.controversy-box p{font-size:13px;line-height:1.7;color:#555}
+.table-wrap{overflow-x:auto;border:1px solid #e0e4e8;border-radius:8px}
+.comp-table{width:100%;border-collapse:collapse;font-size:13px;min-width:860px}
+.comp-table th{padding:14px 16px;text-align:left;font-family:Arial,sans-serif;font-weight:700;font-size:12px;background:#1a2744;color:#fff;letter-spacing:.3px}
+.comp-table th:first-child{background:#152038;width:140px}
+.comp-table th:not(:first-child){width:calc((100% - 140px)/5)}
+.comp-table thead tr:first-child th{font-size:14px;padding:16px 16px;border-bottom:2px solid #009EDB}
+.comp-table tbody td{padding:14px 16px;vertical-align:top;line-height:1.65;border-bottom:1px solid #e0e4e8}
+.comp-table tbody tr:last-child td{border-bottom:none}
+.comp-table tbody tr:nth-child(even) td{background:#fafbfc}
+.comp-table tbody td:first-child{font-family:Arial,sans-serif;font-weight:700;font-size:11px;color:#1a2744;background:#f0f2f5;text-transform:uppercase;letter-spacing:.8px;vertical-align:middle}
+.comp-table tbody tr:nth-child(even) td:first-child{background:#e8ebef}
+.stance{display:inline-block;font-family:Arial,sans-serif;font-size:10px;padding:2px 8px;border-radius:10px;margin-bottom:7px;font-weight:700;letter-spacing:.4px;text-transform:uppercase}
+.s-strong{background:#d4edda;color:#155724}
+.s-moderate{background:#fff3cd;color:#856404}
+.s-cautious{background:#f8d7da;color:#721c24}
+.s-inferred{background:#e3f0fb;color:#1B497C}
+.s-none{background:#e9ecef;color:#6b7c93}
+.p5-wrapper{border:1px solid #e0e4e8;border-radius:8px;overflow:hidden}
+.p5-table{width:100%;border-collapse:collapse;font-size:13px;min-width:860px}
+.p5-table th{padding:14px 16px;font-family:Arial,sans-serif;font-size:12px;font-weight:700;background:#1a2744;color:#fff;text-align:left}
+.p5-table th:first-child{background:#152038;width:160px}
+.p5-table th:not(:first-child){width:calc((100% - 160px)/5)}
+.p5-table thead tr:first-child th{font-size:14px;padding:16px 16px;border-bottom:2px solid #009EDB}
+.p5-table td{padding:14px 16px;border-bottom:1px solid #e0e4e8;vertical-align:top}
+.p5-table tr:last-child td{border-bottom:none}
+.p5-table tbody tr:nth-child(even) td{background:#fafbfc}
+.p5-member-cell{display:flex;align-items:flex-start;gap:10px;background:#f0f2f5 !important}
+.p5-table tbody tr:nth-child(even) .p5-member-cell{background:#e8ebef !important}
+.p5-flag{font-size:22px;padding-top:2px}
+.p5-member-name{font-family:Arial,sans-serif;font-weight:700;font-size:12px;color:#1a2744;text-transform:uppercase;letter-spacing:.5px}
+.p5-member-note{font-family:Arial,sans-serif;font-size:11px;color:#6b7c93;margin-top:2px;line-height:1.4}
+.gauge{display:flex;gap:5px;margin-bottom:5px}
+.dot{width:11px;height:11px;border-radius:50%;background:#dde2e8}
+.d1{background:#dc3545}.d2{background:#fd7e14}.d3{background:#ffc107}.d4{background:#28a745}.d5{background:#155724}
+.g-label{font-family:Arial,sans-serif;font-size:11px;font-weight:700;margin-bottom:4px}
+.g-reason{font-size:12px;color:#555;line-height:1.55}
+.score-1 .g-label{color:#dc3545}.score-2 .g-label{color:#fd7e14}.score-3 .g-label{color:#856404}.score-4 .g-label{color:#28a745}.score-5 .g-label{color:#155724}
+.legend{display:flex;gap:20px;flex-wrap:wrap;margin-bottom:24px;font-family:Arial,sans-serif;font-size:12px;align-items:center}
+.legend-item{display:flex;align-items:center;gap:6px}
+.end-table{width:100%;border-collapse:collapse;font-size:13.5px}
+.end-table th{padding:12px 16px;font-family:Arial,sans-serif;font-size:12px;font-weight:700;background:#1a2744;color:#fff;text-align:left}
+.end-table td{padding:13px 16px;border-bottom:1px solid #e0e4e8;vertical-align:top;line-height:1.65}
+.end-table tr:nth-child(even) td{background:#fafbfc}
+.tag{display:inline-block;font-family:Arial,sans-serif;font-size:11px;padding:3px 9px;border-radius:12px;margin:2px 2px 2px 0;font-weight:700}
+.t-formal{background:#d4edda;color:#155724}
+.t-support{background:#fff3cd;color:#856404}
+.t-regional{background:#e3f0fb;color:#1B497C}
+.t-opposition{background:#f8d7da;color:#721c24}
+@media(max-width:880px){
+  .overview-grid{grid-template-columns:1fr}
+  .content{padding:28px 20px}
+  header{padding:28px 20px}
+  nav.tabs{padding:0 16px}
+  nav.tabs button{padding:13px 12px;font-size:12px}
+}
+
+.ov-avatar{width:56px;height:56px;border-radius:50%;object-fit:cover;flex-shrink:0;border:2px solid #009EDB}
+.ov-avatar-placeholder{width:56px;height:56px;border-radius:50%;background:#2a3f6f;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:2px solid #009EDB;font-size:22px}
+
+.ov-avatar{width:56px;height:56px;border-radius:50%;object-fit:cover;flex-shrink:0;border:2px solid #009EDB}
+.ov-avatar-placeholder{width:56px;height:56px;border-radius:50%;background:#2a3f6f;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:2px solid #009EDB;font-size:22px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="un-eyebrow">United Nations · Secretary-General Selection 2026</div>
+  <h1>2026 UN Secretary-General Race Tracker</h1>
+  <p>A comparative tracker of declared candidates for the 10th Secretary-General of the United Nations. Covers biographies, vision statements, issue positions, P5 support indicators, and formal endorsements.</p>
+  <div class="meta">
+    <span><span class="meta-dot"></span>Last updated: 17 June 2026</span>
+    <span><span class="meta-dot"></span>5 active candidates · 1 withdrawn</span>
+    <span><span class="meta-dot"></span>Interactive dialogues: 21–22 April 2026 (live UN WebTV)</span>
+  </div>
+</header>
+
+<nav class="tabs">
+  <button class="active" onclick="showTab('candidates',this)">Candidates</button>
+  <button onclick="showTab('issues',this)">Issue Comparison</button>
+  <button onclick="showTab('p5',this)">P5 Support Analysis</button>
+  <button onclick="showTab('endorsements',this)">Endorsements</button>
+  <button onclick="showTab('dialogues',this)">Dialogues</button>
+  <button onclick="showTab('latestnews',this)">Latest News</button>
+</nav>
+
+<div class="content">
+
+<!-- ═══════════════ TAB 1: CANDIDATES ═══════════════ -->
+<div id="candidates" class="panel active">
+  <div class="section-label">Declared Candidates</div>
+  <h2>Biographies &amp; Vision Statements</h2>
+  <p class="subtext">Three active candidates remain following two withdrawals in late March 2026. Interactive dialogues with the General Assembly and Security Council are scheduled for 20 April 2026.</p>
+  <div class="overview-grid">
+
+    <!-- GRYNSPAN -->
+    <div class="ov-card">
+      <div class="ov-card-header">
+        <img class="ov-avatar" src="Grynspan.png" alt="Rebeca Grynspan">
+        <div class="ov-flag">🇨🇷</div>
+        <div class="ov-id">
+          <h3>Rebeca Grynspan</h3>
+          <div class="country">Costa Rica</div>
+          <div class="role">Secretary-General, UNCTAD (2021–present)</div>
+        </div>
+      </div>
+      <div class="ov-body">
+        <div class="ov-section">
+          <div class="ov-label">Biography</div>
+          <ul>
+            <li>First woman to lead UNCTAD; mandate extended 2025</li>
+            <li>Former Vice President of Costa Rica</li>
+            <li>Senior roles at UNDP and the Ibero-American General Secretariat (SEGIB)</li>
+            <li>Trained economist; built profile in development, inequality, and multilateral finance</li>
+            <li>Nominated by Costa Rica (letter from President Rodrigo Chaves, Oct 2025)</li>
+          </ul>
+        </div>
+        <div class="ov-section">
+          <div class="ov-label">Vision Statement</div>
+          <div class="vision-box"><p>"The UN must welcome reform instead of being defensive about it." Grynspan frames Trump-era criticism as a stimulus for change, calls for a UN more responsive to developing countries' concerns on debt, inequality and trade, and pledges "reform to rebuild trust" with both powerful and smaller states.</p></div>
+        </div>
+        <div class="ov-section">
+          <div class="ov-label">Media Framing</div>
+          <p>Technocratic, development-focused; potential first woman SG from Latin America. Seen as a "safe" moderate-reform choice. Lacks the "crisis manager" profile of Grossi.</p>
+        </div>
+        <div class="ov-section">
+          <div class="ov-label">Notable Context</div>
+          <div class="controversy-box"><p>No major personal scandals. Some analysts portray her as incremental rather than transformational — a perception critique rather than a formal controversy. Campaign described as "modest" with no special budget.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BACHELET -->
+    <div class="ov-card">
+      <div class="ov-card-header">
+        <img class="ov-avatar" src="Bachelet.png" alt="Michelle Bachelet">
+        <div class="ov-flag">🇨🇱</div>
+        <div class="ov-id">
+          <h3>Michelle Bachelet</h3>
+          <div class="country">Brazil &amp; Mexico · <span style="color:#fd7e14">Chile withdrew support 24 Mar 2026</span></div>
+          <div class="role">Former President of Chile; Former UN High Commissioner for Human Rights</div>
+        </div>
+      </div>
+      <div class="ov-body">
+        <div class="ov-section">
+          <div class="ov-label">Biography</div>
+          <ul>
+            <li>Twice President of Chile (2006–2010; 2014–2018) — first female president</li>
+            <li>Executive Director of UN Women (2010–2013)</li>
+            <li>UN High Commissioner for Human Rights (2018–2022)</li>
+            <li>Medical doctor with specialized training</li>
+            <li>Jointly nominated by Chile, Brazil &amp; Mexico (2 Feb 2026); formal vision statement filed as A/80/616</li>
+            <li><strong>Chile withdrew support 24 Mar 2026</strong> — President Kast cited "fragmentation of Latin American candidacies" and "significant cost" to Chile. Brazil and Mexico remain co-sponsors; Bachelet stays in the race.</li>
+          </ul>
+        </div>
+        <div class="ov-section">
+          <div class="ov-label">Vision Statement</div>
+          <div class="vision-box"><p>Frames the world as facing a "crisis of values and cooperation." Pledges to deliver "concrete, efficient, and sustainable results for peace, development, and human rights." Calls for the SG to combine "loyalty to founding principles with the courage to adapt its internal mechanisms." Stresses rebuilding trust through equality among member states.</p></div>
+        </div>
+        <div class="ov-section">
+          <div class="ov-label">Media Framing</div>
+          <p>Moral authority; human-rights and gender champion with head-of-state experience. Strong regional backing from the three largest Latin American economies. Described as a "normatively rights-centered" candidacy.</p>
+        </div>
+        <div class="ov-section">
+          <div class="ov-label">Notable Context</div>
+          <div class="controversy-box"><p>Faced criticism over handling of the Xinjiang report (2022) — critics argued she was too cautious toward China, defenders cited political constraints. This controversy is expected to be exploited in P5 veto politics by some actors.</p><p style="margin-top:8px"><strong>24 Mar 2026:</strong> Chile's new President Kast withdrew Chile's official backing, calling the bid "unviable" due to fragmentation of Latin American candidacies. Brazil and Mexico remain co-sponsors. Grynspan's bid described as surging in response.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GROSSI -->
+    <div class="ov-card">
+      <div class="ov-card-header">
+        <img class="ov-avatar" src="Grossi.png" alt="Rafael Mariano Grossi">
+        <div class="ov-flag">🇦🇷</div>
+        <div class="ov-id">
+          <h3>Rafael Mariano Grossi</h3>
+          <div class="country">Argentina</div>
+          <div class="role">Director-General, IAEA (2019–present)</div>
+        </div>
+      </div>
+      <div class="ov-body">
+        <div class="ov-section">
+          <div class="ov-label">Biography</div>
+          <ul>
+            <li>IAEA Director-General since 2019, re-elected 2023</li>
+            <li>Veteran Argentine diplomat; senior nuclear-diplomacy posts, including ambassadorial roles</li>
+            <li>Led high-risk IAEA missions to nuclear facilities in Ukrainian conflict zones</li>
+            <li>Formally nominated by Argentina (26 November 2025)</li>
+            <li>Continues to serve as IAEA DG during campaign; stated he will not resign during the race</li>
+          </ul>
+        </div>
+        <div class="ov-section">
+          <div class="ov-label">Vision Statement</div>
+          <div class="vision-box"><p>"We need a secretary-general who puts on their boots and goes where the problem is." Calls for a "bold reformist vision" for a "malfunctioning" UN; wants a UN that "rediscovers its founding values, tackles bureaucracy and acts decisively." Pledges to privilege "multilateralism over unilateralism" and deliver "concrete solutions."</p></div>
+        </div>
+        <div class="ov-section">
+          <div class="ov-label">Media Framing</div>
+          <p>Pragmatic crisis manager and reformist technocrat. Described in some commentary as an early frontrunner with perceived acceptability across multiple P5 members. Hands-on leadership style praised widely.</p>
+        </div>
+        <div class="ov-section">
+          <div class="ov-label">Notable Context</div>
+          <div class="controversy-box"><p>Argentina's President Milei has attacked parts of the UN agenda (SDGs, Pact for the Future), creating a political optics challenge. Some observers question whether Milei's anti-UN rhetoric could complicate Grossi's candidacy, though this is contextual rather than a personal controversy.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SALL -->
+    <div class="ov-card">
+      <div class="ov-card-header">
+        <img class="ov-avatar" src="Sall.png" alt="Macky Sall">
+        <div class="ov-flag">🇸🇳</div>
+        <div class="ov-id">
+          <h3>Macky Sall</h3>
+          <div class="country">Senegal · <span style="color:#fd7e14">AU endorsement failed — 27 Mar 2026</span></div>
+          <div class="role">Former President of Senegal (2012–2024); Former AU Chair</div>
+        </div>
+      </div>
+      <div class="ov-body">
+        <div class="ov-section">
+          <div class="ov-label">Biography</div>
+          <ul>
+            <li>President of Senegal 2012–2024; previously Prime Minister</li>
+            <li>Chaired the African Union; led mediation in regional crises</li>
+            <li>Advocated for global financial reform, debt restructuring, and energy transition</li>
+            <li>Trained geological engineer</li>
+            <li>Nominated by Burundi as AU chair, on behalf of Senegal (early March 2026)</li>
+          </ul>
+        </div>
+        <div class="ov-section">
+          <div class="ov-label">Vision Statement</div>
+          <div class="vision-box"><p>Formal vision statement not yet publicly filed as of March 2026. Campaign framed around African representation, infrastructure, economic reform, AU chairmanship experience, and climate diplomacy. Analysts expect emphasis on climate justice, loss-and-damage funding, and Sahel security-climate nexus.</p></div>
+        </div>
+        <div class="ov-section">
+          <div class="ov-label">Media Framing</div>
+          <p>African power-broker. Bid framed as a test of Africa's claim to the post after Kofi Annan, and of P5 veto politics. Seen as embodying the "Africa's turn" narrative, contingent on AU consolidation behind him.</p>
+        </div>
+        <div class="ov-section">
+          <div class="ov-label">Notable Context</div>
+          <div class="controversy-box"><p>Third-term controversy and handling of protests in later presidential years drew significant criticism from domestic opposition and human rights groups. Some member states prioritizing democratic norms may view this record with concern.</p><p style="margin-top:8px"><strong style="color:#dc3545">27 Mar 2026:</strong> The African Union Bureau's attempt to endorse Sall via a "silence procedure" collapsed when 20+ member states broke silence before the deadline. Countries objecting included South Africa, Nigeria, Algeria, Egypt, Rwanda, Ethiopia, Senegal itself, and others. The AU will NOT officially endorse him as Africa's candidate. Sall announced he will continue his candidacy regardless. His own government (Senegal) never supported his nomination. — <em>APAnews, Amani Africa, Morocco World News, Seneweb</em></p></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ESPINOSA -->
+    <div class="ov-card">
+      <div class="ov-card-header">
+        <div class="ov-avatar-placeholder">🇪🇨</div>
+        <div class="ov-flag">🇪🇨</div>
+        <div class="ov-id">
+          <h3>María Fernanda Espinosa</h3>
+          <div class="country">Ecuador · <span style="color:#28a745">NEW — Nominated 12 May 2026</span></div>
+          <div class="role">Former Foreign Minister &amp; President of the UN General Assembly (2018–2019)</div>
+        </div>
+      </div>
+      <div class="ov-body">
+        <div class="ov-section">
+          <div class="ov-label">Biography</div>
+          <ul>
+            <li>Former Minister of Foreign Affairs of Ecuador</li>
+            <li>Former Minister of National Defense of Ecuador</li>
+            <li>President of the 73rd UN General Assembly (2018–2019)</li>
+            <li>Negotiated Indigenous land rights in the Ecuadorian Amazon; 30+ years in multilateral diplomacy</li>
+            <li>Nominated by Antigua and Barbuda on 12 May 2026 — 5th active candidate (not nominated by her own country)</li>
+            <li>Ecuador's government has not confirmed tacit support; Espinosa states she has been outside Ecuadorian national politics for 8 years</li>
+          </ul>
+        </div>
+        <div class="ov-section">
+          <div class="ov-label">Vision Statement</div>
+          <div class="vision-box"><p>Platform centers on a "new financing compact" to help member states understand the value of UN budgets, and rethinking the SDG delivery model. "The UN should not be delivering development projects on the ground, but supporting countries to increase their capacities, their access to resources, their access to technology." Proposes tackling the UN liquidity crisis directly — noted by observers as the only candidate to explicitly address it with concrete ideas.</p></div>
+        </div>
+        <div class="ov-section">
+          <div class="ov-label">Media Framing</div>
+          <p>Third woman in the race alongside Bachelet and Grynspan. Described as a "Global South" candidate with multilateral institutional experience, particularly in UNGA presidency. Small-state nomination (Antigua and Barbuda) limits initial political capital. PassBlue interview (May 19) characterised her platform as the most explicit on UN finance reform.</p>
+        </div>
+        <div class="ov-section">
+          <div class="ov-label">Notable Context</div>
+          <div class="controversy-box"><p>Cross-national nomination (by Antigua and Barbuda, not Ecuador) mirrors the Sall/Gamba pattern — raises questions about home-country backing and regional base. Xinhua (Chinese state media) covered her nomination prominently on May 13, which may signal Chinese interest. Vision statement filed May 12 with UN SG selection page.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GAMBA -->
+    <div class="ov-card">
+      <div class="ov-card-header">
+        <img class="ov-avatar" src="Gamba.png" alt="Virginia Gamba">
+        <div class="ov-flag">🇦🇷</div>
+        <div class="ov-id">
+          <h3>Virginia Gamba</h3>
+          <div class="country">Argentina · <span style="color:#fd7e14">⚠ Withdrawn — 26–27 Mar 2026</span></div>
+          <div class="role">Former UN USG for Children &amp; Armed Conflict; Former USG for Prevention of Genocide</div>
+        </div>
+      </div>
+      <div class="ov-body">
+        <div class="ov-section">
+          <div class="ov-label">Biography</div>
+          <ul>
+            <li>UN Under-Secretary-General for Children and Armed Conflict (2017–2025)</li>
+            <li>UN USG for Prevention of Genocide (2024–2025)</li>
+            <li>Argentine diplomat with 30+ years in the UN system</li>
+            <li>Formally nominated by the Maldives on 11 March 2026 — fifth declared candidate</li>
+            <li>Argentina's own government has backed Rafael Grossi</li>
+            <li><strong style="color:#dc3545">⚠ Withdrawn 26–27 March 2026:</strong> The Maldives withdrew its nomination without explanation. Her candidacy is ended. Field narrows to four nominally active candidates.</li>
+          </ul>
+        </div>
+        <div class="ov-section">
+          <div class="ov-label">Vision Statement</div>
+          <div class="vision-box"><p>Not yet publicly filed as of 16 March 2026. Campaign focus areas are expected to be child protection, atrocity prevention, and UN reform. Interactive dialogue scheduled for week of 20 April 2026.</p></div>
+        </div>
+        <div class="ov-section">
+          <div class="ov-label">Media Framing</div>
+          <p>Newest entrant. Nominated by a small island state (Maldives) rather than her home country, which has already backed Grossi. Profile is humanitarian and protection-focused rather than geopolitical. Considered a long-shot at this stage.</p>
+        </div>
+        <div class="ov-section">
+          <div class="ov-label">Notable Context</div>
+          <div class="controversy-box"><p>Her candidacy creates a split with Argentina's official position. President Milei's government backs Grossi. Gamba's nomination by the Maldives is unusual and may limit her ability to attract major bloc support.</p></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════ TAB 2: ISSUES ═══════════════ -->
+<div id="issues" class="panel">
+  <div class="section-label">Issue-by-Issue</div>
+  <h2>Comparative Issue Positions</h2>
+  <p class="subtext">Positions inferred from campaign statements, prior roles, and analyst commentary. Stance badge indicates evidential basis: <strong>Direct</strong> = explicit campaign statement; <strong>Inferred</strong> = extrapolated from prior role; <strong>Not stated</strong> = no public position recorded.</p>
+  <div class="table-wrap">
+  <table class="comp-table">
+    <thead>
+      <tr>
+        <th>Issue</th>
+        <th>🇨🇷 Grynspan</th>
+        <th>🇨🇱 Bachelet</th>
+        <th>🇦🇷 Grossi</th>
+        <th>🇸🇳 Sall</th>
+        <th>🇦🇷 Gamba</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Climate Change</td>
+        <td><span class="stance s-inferred">Inferred</span><br>Links climate action to trade, finance, and inequality. Argues developing countries need fairer financial conditions for green transitions. Costa Rica's nomination highlights her alignment with climate-conscious multilateralism.</td>
+        <td><span class="stance s-strong">Direct</span><br>Frames climate as "the greatest threat to human rights." Vision statement foregrounds "integrated climate action." Argues climate policy is a tool for conflict prevention and poverty eradication.</td>
+        <td><span class="stance s-inferred">Inferred</span><br>Frames nuclear energy as part of climate mitigation and low-carbon power. Argues climate policy needs science-based solutions. Explicit SG-campaign climate pledges are limited in open reporting.</td>
+        <td><span class="stance s-inferred">Inferred</span><br>As AU chair, pressed for recognition of African gas as a "transition fuel" and stronger adaptation finance. Expected to focus on climate justice, loss-and-damage, and the Sahel security-climate nexus.</td>
+        <td><span class="stance s-none">Not Yet Stated</span></td>
+      </tr>
+      <tr>
+        <td>Gender Equality</td>
+        <td><span class="stance s-strong">Direct</span><br>"We are agents of change, not merely a vulnerable group." Stresses that sustainable peace "cannot be achieved without the full and meaningful participation of women." Goal is "not merely seeking a seat at the table, but to reshape the table."</td>
+        <td><span class="stance s-strong">Direct</span><br>Gender equality is a core stated priority. Vision statement argues it is essential to "build more just, peaceful, and resilient societies." Long record championing ending violence against women and women's full participation.</td>
+        <td><span class="stance s-inferred">Inferred</span><br>Launched IAEA's Marie Sklodowska-Curie Fellowship Programme; promoted gender parity in the nuclear field. Analysts cite his elevation of women in technical diplomacy. Explicit SG-bid gender statements are limited.</td>
+        <td><span class="stance s-none">Not Stated</span></td>
+        <td><span class="stance s-inferred">Inferred</span><br>Role as USG for Children and Armed Conflict focused on protection of girls in conflict. Likely to emphasise protection-based gender equality rather than structural reform agenda.</td>
+      </tr>
+      <tr>
+        <td>Human Rights</td>
+        <td><span class="stance s-inferred">Inferred</span><br>Links economic structures and inequality to rights outcomes. Frames women's vulnerability as a result of weakened rights. Supports inclusive trade and development policies compatible with economic and social rights.</td>
+        <td><span class="stance s-strong">Direct</span><br>Human rights must be "at the core of all UN action." Vision statement reaffirms "centrality of human rights in multilateral action" and calls the UN a "global reference for human dignity and social justice."</td>
+        <td><span class="stance s-inferred">Inferred</span><br>More technocratic than rights-based. His insistence on nuclear safety in conflict zones has been framed as protecting civilian populations and international humanitarian norms — practical rights concern without explicit rights language.</td>
+        <td><span class="stance s-cautious">Cautious</span><br>Domestic record has drawn human rights criticism (protests, political opposition treatment). Supporters point to AU mediation roles as conflict-prevention credentials. Likely vulnerability in a UN human-rights-focused environment.</td>
+        <td><span class="stance s-strong">Direct</span><br>Core of her UN career: overseeing child rights in conflict and genocide prevention. Strong human rights credentials are central to her profile.</td>
+      </tr>
+      <tr>
+        <td>Peace &amp; Security</td>
+        <td><span class="stance s-strong">Direct · Dialogue Apr 22</span><br>Peacemaking declared her top priority. Pledges early engagement, direct dialogue, and close SC coordination. Proposes merging DPPA and DPO planning (currently siloed). HQ must transmit field intelligence rather than block it. Black Sea Grain Initiative is her proof of concept for nimble, small-team mediation. Calls for clearer, more realistic peacekeeping mandates. Described UN as "too risk-conservative" — wants faster, bolder action.</td>
+        <td><span class="stance s-strong">Direct · Dialogue Apr 21</span><br>"The UN must anticipate, prevent and unite." Next SG must be "physically present in the field." Links peace and security, development, and human rights into a coherent, preventive agenda. Emphasises addressing root causes — frames climate change as a conflict driver and human rights violation.</td>
+        <td><span class="stance s-strong">Direct · Dialogue Apr 21</span><br>Led IAEA team to Zaporizhzhia nuclear plant during active conflict — his central credential. Negotiated directly with Russian and Ukrainian leaders as an impartial party when both sides were skeptical. "You need to be accepted by both sides — for that you need to be impartial." Would not wait for member states to task him — would proactively engage to forestall conflict. Called for constant SC partnership.</td>
+        <td><span class="stance s-strong">Direct · Dialogue Apr 22</span><br>Peacekeeping is his signature issue, drawing on Senegal's major troop-contributing role. Calls for more robust and effective mandates. Operationalise Resolution 2719. Fully integrate the humanitarian-development-peace nexus. On Iran/US/Israel tensions: called for continued diplomacy and support for Pakistan-led mediation, urging all parties to maintain a ceasefire. "Bridge-builder" framing: restore trust, calm tensions, reduce fragmentation.</td>
+        <td><span class="stance s-none">N/A — Withdrawn</span></td>
+      </tr>
+      <tr>
+        <td>Humanitarian Aid</td>
+        <td><span class="stance s-inferred">Inferred</span><br>Addresses humanitarian need through systemic change — debt restructuring, development finance, and structural inequality reduction. No detailed humanitarian reform manifesto specific to the SG bid.</td>
+        <td><span class="stance s-inferred">Inferred</span><br>Links humanitarian concerns to rights and development. Vision statement pledges "concrete, efficient and sustainable results" for peace, development, and rights. Explicit humanitarian system reform proposals limited.</td>
+        <td><span class="stance s-inferred">Inferred</span><br>Emphasises delivering "concrete solutions" in crises and activist SG presence in conflict areas — intersects with humanitarian operations. More implied than codified in a humanitarian-policy section.</td>
+        <td><span class="stance s-inferred">Inferred</span><br>Sahel crisis engagement and developing-country advocacy imply humanitarian positioning. Emphasis on climate vulnerability and conflict prevention. Largely implicit in broader coverage rather than explicit pledges.</td>
+        <td><span class="stance s-inferred">Inferred</span><br>Work with children in armed conflict directly intersects with humanitarian response. Expected to emphasise protection of civilians and humanitarian access.</td>
+      </tr>
+      <tr>
+        <td>UN Reform</td>
+        <td><span class="stance s-strong">Direct · Dialogue Apr 22</span><br>Most detailed structural reform agenda of any candidate. First acts: restructure the SG's executive office; merge DPPA and DPO planning capacities (currently "neither coherent nor coordinated"). HQ must be a conduit for field intelligence, not a wall blocking it. Clearer, more realistic peacekeeping mandates. Alternative vulnerability-based development metrics to replace GDP-only resource allocation. New UN financing arrangements. More representative Security Council. Calls UN "too risk-conservative." Black Sea Grain Initiative cited as model for nimble, small-team SG mediation.</td>
+        <td><span class="stance s-strong">Direct · Dialogue Apr 21</span><br>Pledges gender parity at the UN Secretariat. Human rights explicitly elevated to equal standing with peace/security and development pillars — positioned as a prevention tool. Calls for improved civil society access to UN processes. Vision: "institutional reform with purpose" and "reconnecting with people." Climate as existential threat and human rights challenge.</td>
+        <td><span class="stance s-strong">Direct · Dialogue Apr 21</span><br>Would treat Security Council as a "constant partner" — permanent open channel, proactive engagement, not waiting to be tasked. Open-door office with regular town halls for staff. Pledged to build on reform efforts from day one rather than restart. On SC expansion: "widespread recognition that African underrepresentation needs to be addressed" and "progressive convergence of views." Described his style: "you are not there to lecture — you are there to help find a solution."</td>
+        <td><span class="stance s-strong">Direct · Dialogue Apr 22</span><br>Calls for stronger African representation on the Security Council. Operationalise Resolution 2719 (AU peacekeeping funding). Fully integrate the humanitarian-development-peace nexus. Renew and revitalise multilateralism. Strengthen UN governance structures. Treats all UN members equally while prioritising coordination with regional blocs.</td>
+        <td><span class="stance s-none">N/A — Withdrawn</span></td>
+      </tr>
+      <tr>
+        <td>Ukraine War / Russia</td>
+        <td><span class="stance s-strong">Direct</span><br>Met FM Lavrov in Moscow, 7 April 2026 — the only publicly confirmed candidate-to-P5 FM bilateral meeting ahead of the dialogues. LinkedIn post: "We reaffirmed the importance of upholding the #UNCharter. I shared my perspective on how the Organisation can refocus its efforts, strengthen its effectiveness, advance necessary reforms." No explicit condemnation of Russia's invasion; engagement framed as SG-role neutrality.</td>
+        <td><span class="stance s-inferred">Inferred</span><br>As OHCHR, condemned human rights violations in Ukraine and by Russia. SG campaign texts emphasise principles and international law rather than country-specific positions. Strong international law orientation viewed cautiously in Moscow.</td>
+        <td><span class="stance s-strong">Direct</span><br>Led IAEA missions to Zaporizhzhia under active conflict — negotiated with Russian and Ukrainian leaders simultaneously as an impartial party. His Ukraine engagement is his most visible credential. Favours pragmatic engagement under international law, not isolation or condemnation.</td>
+        <td><span class="stance s-none">Not Stated</span></td>
+        <td><span class="stance s-none">N/A — Withdrawn</span></td>
+      </tr>
+      <tr>
+        <td>US Relations (Trump)</td>
+        <td><span class="stance s-strong">Direct</span><br>Trump's UN criticisms "could be constructive rather than destructive." Argues the UN should listen and reform. Positions herself as seeking engagement with a sceptical US administration.</td>
+        <td><span class="stance s-cautious">Cautious</span><br>As OHCHR, criticised US policies on migration and racial justice under Trump. SG vision reiterates that human rights should guide UN relations with all states. Strong rights profile creates latent friction.</td>
+        <td><span class="stance s-inferred">Inferred</span><br>Worked closely with US administrations on nuclear verification and non-proliferation. Campaign coverage emphasises pragmatism and ability to work with powerful states.</td>
+        <td><span class="stance s-inferred">Inferred</span><br>Cultivated US security and economic cooperation as president. Comfortable navigating great-power rivalries. No widely reported SG-campaign quotes specifically addressing the Trump administration.</td>
+        <td><span class="stance s-none">Not Yet Stated</span></td>
+      </tr>
+      <tr>
+        <td>China Relations</td>
+        <td><span class="stance s-inferred">Inferred</span><br>UNCTAD trade role intersects with China's economic presence in the Global South. Development-oriented multilateralism broadly compatible with China's priorities. No SG-campaign-specific China policy.</td>
+        <td><span class="stance s-cautious">Cautious</span><br>OHCHR Xinjiang report drew China's strong criticism. Strong human rights profile is a known concern for Beijing. No China-specific SG campaign statement recorded.</td>
+        <td><span class="stance s-inferred">Inferred</span><br>IAEA cooperation required engagement with China on nuclear issues. Pragmatic technocratic style. Technical oversight role could be viewed as intrusive by Beijing.</td>
+        <td><span class="stance s-inferred">Inferred</span><br>Strong Africa-China ties through BRI; AU chairmanship engaged closely with China. No strong human rights challenges to China on record. Expected to be among the most comfortable candidates for Beijing.</td>
+        <td><span class="stance s-none">Not Yet Stated</span></td>
+      </tr>
+      <tr>
+        <td>Gaza War</td>
+        <td><span class="stance s-inferred">Inferred · Dialogue Apr 22</span><br>All four candidates acknowledged SC paralysis over Gaza, Ukraine, and Iran. Grynspan's prevention-first and small-team mediation model implicitly frames Gaza as a failure of early engagement. No direct Gaza-specific policy statement surfaced from her dialogue.</td>
+        <td><span class="stance s-inferred">Inferred · Dialogue Apr 21</span><br>As OHCHR (2018–2022), documented human rights violations in Gaza. In the dialogue, framed Gaza within a broader argument that the UN must anticipate and prevent rather than react. Did not state a specific Gaza policy position beyond calling for dialogue and prevention.</td>
+        <td><span class="stance s-inferred">Inferred · Dialogue Apr 21</span><br>Cited the Gaza/Ukraine/Iran gridlock as evidence that "there are enormous, huge doubts about our institution." His impartiality doctrine — being accepted by all sides — is his implicit framework. No Gaza-specific policy stated; his IAEA credentials do not directly apply.</td>
+        <td><span class="stance s-inferred">Inferred · Dialogue Apr 22</span><br>Called for diplomacy and de-escalation as overarching principles. No explicit Gaza position stated in dialogue, but his call for Pakistan-led mediation on Iran/US tensions and "bridge-builder" framing applies broadly to Middle East dynamics.</td>
+        <td><span class="stance s-none">N/A — Withdrawn</span></td>
+      </tr>
+      <tr>
+        <td>Iran War / Strait of Hormuz</td>
+        <td><span class="stance s-strong">Direct</span><br>Calls for a UN-facilitated "targeted diplomatic effort" to ensure free commercial navigation through the Strait of Hormuz. Frames it as a global economic and humanitarian issue — warns of fertiliser price spikes and food insecurity in developing countries. Draws explicit parallel to the 2022 Black Sea Initiative. Proposes "practical risk-reduction measures" and a "diplomatic off-ramp." LinkedIn, 25 Mar &amp; 30 Mar 2026. Also endorsed Guterres's Hormuz initiative in the same framing.</td>
+        <td><span class="stance s-none">Not Stated</span></td>
+        <td><span class="stance s-inferred">Inferred</span><br>As IAEA DG, Grossi has direct involvement in Iran's nuclear file and ongoing inspection disputes. His impartiality doctrine and pragmatic engagement style apply. No SG-campaign statement specifically on the Iran war surfaced.</td>
+        <td><span class="stance s-strong">Direct · Dialogue Apr 22</span><br>Called for continued diplomacy and support for Pakistan-led mediation on the Iran/US/Israel tensions. Urged all parties to maintain a ceasefire and work toward a lasting agreement. Consistent with his "bridge-builder" and sovereignty-respecting multilateralism framing.</td>
+        <td><span class="stance s-none">N/A — Withdrawn</span></td>
+      </tr>
+      <tr>
+        <td>UN Fiscal Crisis</td>
+        <td><span class="stance s-strong">Direct · Dialogue Apr 22</span><br>No reform under the UN80 process should come at the expense of the most vulnerable states or LDCs. Proposed vulnerability-based metrics to protect development funding allocation. Would restructure executive office to reduce bureaucratic overhead. Black Sea model of lean, small-team operations as an efficiency template.</td>
+        <td><span class="stance s-strong">Direct · Dialogue Apr 21</span><br>Pledged to protect development funding for the most vulnerable. Frames fiscal reform as requiring political courage, not just administrative cuts. Gender parity and human rights commitments must survive budget pressures.</td>
+        <td><span class="stance s-strong">Direct · Dialogue Apr 21</span><br>Pledged open-door office and regular town halls — signals a lean, accessible management style. His IAEA track record of running a complex institution under political and financial pressure is his implicit credential on fiscal management.</td>
+        <td><span class="stance s-inferred">Inferred · Dialogue Apr 22</span><br>Addressed the fiscal crisis in the context of equitable reform — any cuts must not disproportionately affect Global South programmes. Operationalising Resolution 2719 (AU peacekeeping funding) reflects awareness of burden-sharing finance.</td>
+        <td><span class="stance s-none">N/A — Withdrawn</span></td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="note"><strong>Methodology note:</strong> "Direct" stances draw on explicit post-candidacy campaign statements, formally filed vision documents, or statements made during the April 21–22, 2026 interactive dialogues with the General Assembly. "Inferred" stances are extrapolated from the candidate's most recent senior role or contextual statements. "Not Stated" indicates no retrievable public position. Stances marked <em>Dialogue Apr 21/22</em> reflect positions first clearly articulated or substantially confirmed during the official interactive dialogues broadcast on UN WebTV. Last updated: 5 May 2026.</div>
+</div>
+
+<!-- ═══════════════ TAB 3: P5 ═══════════════ -->
+<div id="p5" class="panel">
+  <div class="section-label">Security Council Analysis</div>
+  <h2>Estimated P5 Support Indicators</h2>
+  <p class="subtext">Each permanent member of the Security Council holds a veto over the SG appointment. These indicators reflect analytical assessments based on candidates' positions, prior records, and each P5 member's current policy priorities — not confirmed diplomatic positions.</p>
+  <div class="legend">
+    <strong style="font-family:Arial,sans-serif;font-size:12px">Scale:</strong>
+    <span class="legend-item"><span class="dot d1"></span><span style="font-family:Arial,sans-serif;font-size:12px">1 — Very Unlikely</span></span>
+    <span class="legend-item"><span class="dot d2"></span><span style="font-family:Arial,sans-serif;font-size:12px">2 — Significant Concerns</span></span>
+    <span class="legend-item"><span class="dot d3"></span><span style="font-family:Arial,sans-serif;font-size:12px">3 — Uncertain / Neutral</span></span>
+    <span class="legend-item"><span class="dot d4"></span><span style="font-family:Arial,sans-serif;font-size:12px">4 — Likely Favourable</span></span>
+    <span class="legend-item"><span class="dot d5"></span><span style="font-family:Arial,sans-serif;font-size:12px">5 — Strong Support Expected</span></span>
+  </div>
+  <div class="p5-wrapper" style="overflow-x:auto">
+  <table class="p5-table" style="min-width:860px">
+    <thead>
+      <tr>
+        <th>P5 Member</th>
+        <th>🇨🇷 Grynspan</th>
+        <th>🇨🇱 Bachelet</th>
+        <th>🇦🇷 Grossi</th>
+        <th>🇸🇳 Sall</th>
+        <th>🇦🇷 Gamba</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="p5-member-cell"><div class="p5-flag">🇺🇸</div><div><div class="p5-member-name">United States</div><div class="p5-member-note">Priority: UN reform, anti-bureaucracy, nuclear, sceptical of climate &amp; rights mandates (Trump). <strong>Mar 2026:</strong> Analysts warn Trump administration to "go on offense" to secure an SG aligned with US interests (Fox News). Ambassador Elise Stefanik is key US player. No formal endorsement yet.</div></div></td>
+        <td><div class="score-3"><div class="gauge"><span class="dot d3"></span><span class="dot d3"></span><span class="dot d3"></span><span class="dot"></span><span class="dot"></span></div><div class="g-label">Uncertain / Neutral</div><div class="g-reason">Constructive engagement toward US criticism is appealing; reform framing resonates. But development/equality agenda and Global South emphasis unlikely to align with current US priorities.</div></div></td>
+        <td><div class="score-2"><div class="gauge"><span class="dot d2"></span><span class="dot d2"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></div><div class="g-label">Significant Concerns</div><div class="g-reason">Strong human rights profile; previously criticised US immigration and racial justice policies under Trump. Climate-heavy, rights-centred platform at odds with current US posture at the UN.</div></div></td>
+        <td><div class="score-4"><div class="gauge"><span class="dot d4"></span><span class="dot d4"></span><span class="dot d4"></span><span class="dot d4"></span><span class="dot"></span></div><div class="g-label">Likely Favourable</div><div class="g-reason">Pragmatic technocrat; long track record working with US administrations on nuclear non-proliferation. Reform agenda resonates with US scepticism of UN bureaucracy. Deliverables-focused rather than ideological.</div></div></td>
+        <td><div class="score-3"><div class="gauge"><span class="dot d3"></span><span class="dot d3"></span><span class="dot d3"></span><span class="dot"></span><span class="dot"></span></div><div class="g-label">Uncertain / Neutral</div><div class="g-reason">Cultivated US security and economic cooperation as president. Comfortable with great-power engagement. African development and reform agenda may create friction with current US priorities.</div></div></td>
+        <td><div class="score-3"><div class="gauge"><span class="dot d3"></span><span class="dot d3"></span><span class="dot d3"></span><span class="dot"></span><span class="dot"></span></div><div class="g-label">Uncertain / Neutral</div></div></td>
+      </tr>
+      <tr>
+        <td class="p5-member-cell"><div class="p5-flag">🇷🇺</div><div><div class="p5-member-name">Russia</div><div class="p5-member-note">Priority: Non-criticism of Ukraine war, anti-Western dominance, pro-multipolarity. <strong>Mar 2026:</strong> FM Logvinov stated new SG must "adhere to UN Charter" and take Russian concerns on Ukraine into account. Sceptical of women-SG push; concerned about candidates with "formal Global South origins but Western ties."</div></div></td>
+        <td><div class="score-3"><div class="gauge"><span class="dot d3"></span><span class="dot d3"></span><span class="dot d3"></span><span class="dot"></span><span class="dot"></span></div><div class="g-label">Uncertain / Neutral</div><div class="g-reason">Development focus poses no direct friction; limited direct positions on Ukraine. Russia unlikely to actively oppose but no strong affirmative incentive. Moderate reform agenda does not challenge Russia's core interests.</div></div></td>
+        <td><div class="score-2"><div class="gauge"><span class="dot d2"></span><span class="dot d2"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></div><div class="g-label">Significant Concerns</div><div class="g-reason">As OHCHR, condemned human rights violations in Ukraine and by Russia. Strong international law orientation viewed with wariness in Moscow. Rights-centred SG profile likely to create friction over Ukraine accountability.</div></div></td>
+        <td><div class="score-2"><div class="gauge"><span class="dot d2"></span><span class="dot d2"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></div><div class="g-label">Significant Concerns</div><div class="g-reason">IAEA missions directly involved monitoring Russian-controlled Zaporizhzhia plant. Russia may view Grossi's engagement as adversarial despite his stated neutrality and protective framing.</div></div></td>
+        <td><div class="score-4"><div class="gauge"><span class="dot d4"></span><span class="dot d4"></span><span class="dot d4"></span><span class="dot d4"></span><span class="dot"></span></div><div class="g-label">Likely Favourable</div><div class="g-reason">Africa's non-aligned posture; Sall cultivated Russia relations as AU chair and did not publicly condemn Russia over Ukraine. Fits Russia's preference for Global South multipolar leadership.</div></div></td>
+        <td><div class="score-3"><div class="gauge"><span class="dot d3"></span><span class="dot d3"></span><span class="dot d3"></span><span class="dot"></span><span class="dot"></span></div><div class="g-label">Uncertain / Neutral</div></div></td>
+      </tr>
+      <tr>
+        <td class="p5-member-cell"><div class="p5-flag">🇨🇳</div><div><div class="p5-member-name">China</div><div class="p5-member-note">Priority: Avoid human rights criticism (Xinjiang), pro-development, pro-multipolarity, non-interference. <strong>June 3–4 2026:</strong> VP Han Zheng and FM Wang Yi both received Bachelet in Beijing — highest-level P5 candidate meeting of the race. FM Wang Yi May 27: outlined four SG qualifications centred on UN Charter, developing-country interests, reform. China will "take a responsible attitude to participate."</div></div></td>
+        <td><div class="score-3"><div class="gauge"><span class="dot d3"></span><span class="dot d3"></span><span class="dot d3"></span><span class="dot"></span><span class="dot"></span></div><div class="g-label">Uncertain / Neutral</div><div class="g-reason">UNCTAD trade/development focus aligns with China's multilateral development narrative. Maintained UNCTAD independence. No direct Xinjiang criticism on record. China unlikely to actively oppose but no strong alignment either.</div></div></td>
+        <td><div class="score-3"><div class="gauge"><span class="dot d3"></span><span class="dot d3"></span><span class="dot d3"></span><span class="dot"></span><span class="dot"></span></div><div class="g-label">Uncertain — Reassessing ↑</div><div class="g-reason"><strong>Updated June 17:</strong> VP Han Zheng + FM Wang Yi both received Bachelet in Beijing on June 3–4 — the highest-level P5 candidate meeting of the race. China's prior concerns about the Xinjiang report appear not to have blocked engagement. Bachelet praised China's multilateral commitment; Beijing framing was warm. Upgraded from "Significant Concerns" to "Uncertain — Reassessing." Formal endorsement not yet given.</div></div></td>
+        <td><div class="score-3"><div class="gauge"><span class="dot d3"></span><span class="dot d3"></span><span class="dot d3"></span><span class="dot"></span><span class="dot"></span></div><div class="g-label">Uncertain / Neutral</div><div class="g-reason">IAEA required cooperation with China on nuclear issues; pragmatic style compatible with Chinese preferences. However, technical oversight mandate may be viewed as potentially intrusive.</div></div></td>
+        <td><div class="score-4"><div class="gauge"><span class="dot d4"></span><span class="dot d4"></span><span class="dot d4"></span><span class="dot d4"></span><span class="dot"></span></div><div class="g-label">Likely Favourable</div><div class="g-reason">Strong Africa-China BRI ties; AU chairmanship engaged closely with Beijing on development and infrastructure. No strong human rights challenges to China on record. Aligns with China's preference for a Global South SG.</div></div></td>
+        <td><div class="score-3"><div class="gauge"><span class="dot d3"></span><span class="dot d3"></span><span class="dot d3"></span><span class="dot"></span><span class="dot"></span></div><div class="g-label">Uncertain / Neutral</div></div></td>
+      </tr>
+      <tr>
+        <td class="p5-member-cell"><div class="p5-flag">🇬🇧</div><div><div class="p5-member-name">United Kingdom</div><div class="p5-member-note">Priority: Pro-multilateralism, pro-Ukraine, human rights, climate action</div></div></td>
+        <td><div class="score-3"><div class="gauge"><span class="dot d3"></span><span class="dot d3"></span><span class="dot d3"></span><span class="dot"></span><span class="dot"></span></div><div class="g-label">Uncertain / Neutral</div><div class="g-reason">Moderate reformer; development/climate focus broadly compatible with UK multilateralism. Seen as a safe, competent choice. Lacks the strong crisis-management or human rights profile the UK has historically championed.</div></div></td>
+        <td><div class="score-4"><div class="gauge"><span class="dot d4"></span><span class="dot d4"></span><span class="dot d4"></span><span class="dot d4"></span><span class="dot"></span></div><div class="g-label">Likely Favourable</div><div class="g-reason">Strong alignment with UK values: human rights champion, previously condemned violations in Ukraine and Russia, climate-integrated agenda. Head-of-state experience and broad multilateral credentials resonate with London.</div></div></td>
+        <td><div class="score-4"><div class="gauge"><span class="dot d4"></span><span class="dot d4"></span><span class="dot d4"></span><span class="dot d4"></span><span class="dot"></span></div><div class="g-label">Likely Favourable</div><div class="g-reason">Pragmatic effectiveness appeals to the UK. Ukraine nuclear safety work aligns with UK's strong pro-Ukraine stance. Reform credentials welcome. Activist, deliverables-focused style matches UK priorities.</div></div></td>
+        <td><div class="score-2"><div class="gauge"><span class="dot d2"></span><span class="dot d2"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></div><div class="g-label">Significant Concerns</div><div class="g-reason">Domestic governance and human rights controversies may be a concern. Not clearly aligned with UK's pro-Ukraine positions. Russia ties during AU chairmanship potentially problematic for London.</div></div></td>
+        <td><div class="score-3"><div class="gauge"><span class="dot d3"></span><span class="dot d3"></span><span class="dot d3"></span><span class="dot"></span><span class="dot"></span></div><div class="g-label">Uncertain / Neutral</div></div></td>
+      </tr>
+      <tr>
+        <td class="p5-member-cell"><div class="p5-flag">🇫🇷</div><div><div class="p5-member-name">France</div><div class="p5-member-note">Priority: Pro-multilateralism, climate action, human rights, Francophone engagement, pro-nuclear</div></div></td>
+        <td><div class="score-4"><div class="gauge"><span class="dot d4"></span><span class="dot d4"></span><span class="dot d4"></span><span class="dot d4"></span><span class="dot"></span></div><div class="g-label">Likely Favourable</div><div class="g-reason">Climate/development focus strongly aligns with France's multilateral agenda. Costa Rica's track record on the Paris Agreement contextualises Grynspan's nomination favourably. Francophone multilateral tradition compatible.</div></div></td>
+        <td><div class="score-4"><div class="gauge"><span class="dot d4"></span><span class="dot d4"></span><span class="dot d4"></span><span class="dot d4"></span><span class="dot"></span></div><div class="g-label">Likely Favourable</div><div class="g-reason">Strong human rights/multilateral alignment; France-Latin America ties are constructive. Climate-integrated agenda matches France's UN priorities. Head-of-state experience and normative credentials align well with Paris.</div></div></td>
+        <td><div class="score-4"><div class="gauge"><span class="dot d4"></span><span class="dot d4"></span><span class="dot d4"></span><span class="dot d4"></span><span class="dot"></span></div><div class="g-label">Likely Favourable</div><div class="g-reason">France is pro-nuclear — Grossi's IAEA expertise resonates strongly. Activist, reform-minded approach matches France's preference for a strong, visible SG. Crisis management style and multilateralism commitment align well.</div></div></td>
+        <td><div class="score-3"><div class="gauge"><span class="dot d3"></span><span class="dot d3"></span><span class="dot d3"></span><span class="dot"></span><span class="dot"></span></div><div class="g-label">Uncertain / Neutral</div><div class="g-reason">France-Africa relations are complex with some recent tensions in the Sahel. Sall was regarded as a relatively moderate, pro-engagement African leader. African representation valued by Paris, but governance controversies introduce uncertainty.</div></div></td>
+        <td><div class="score-3"><div class="gauge"><span class="dot d3"></span><span class="dot d3"></span><span class="dot d3"></span><span class="dot"></span><span class="dot"></span></div><div class="g-label">Uncertain / Neutral</div></div></td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="note"><strong>Disclaimer:</strong> These indicators are analytical assessments based on publicly available information and are not confirmed diplomatic positions. No member state has formally declared its voting intention. P5 members conduct informal consultations in private; veto use or abstention decisions will reflect factors beyond policy alignment alone.</div>
+</div>
+
+<!-- ═══════════════ TAB 4: ENDORSEMENTS ═══════════════ -->
+<div id="endorsements" class="panel">
+  <div class="section-label">State Support</div>
+  <h2>Endorsements &amp; Formal Nominations</h2>
+  <p class="subtext">Formal nominations have been submitted to the President of the General Assembly and the Security Council. Additional state endorsements and regional bloc signals are tracked below.</p>
+  <table class="end-table">
+    <thead>
+      <tr>
+        <th style="width:20%">Candidate</th>
+        <th style="width:22%">Formal Nominating State(s)</th>
+        <th style="width:30%">Additional State / Public Support</th>
+        <th style="width:28%">Regional &amp; Bloc Signals</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Rebeca Grynspan</strong><br><span style="font-family:Arial,sans-serif;font-size:12px;color:#6b7c93">🇨🇷 Costa Rica</span></td>
+        <td><span class="tag t-formal">Costa Rica</span><br><span style="font-size:12px;color:#555">Nomination letter from President Rodrigo Chaves; formally resubmitted 3 March 2026. Grynspan has stepped aside from UNCTAD duties to campaign full-time.</span></td>
+        <td><span style="font-size:13px;color:#555">Geneva Solutions profiled her as potential "first female leader" of the UN. <strong>Bid described as surging following Chile's 24 Mar withdrawal of support for Bachelet</strong> — seen as consolidating the Latin American woman candidate lane. No additional formal state endorsements documented as of 25 March 2026.</span></td>
+        <td><span class="tag t-regional">GRULAC</span><br><span style="font-size:12px;color:#555">Benefits indirectly from the "Latin America's turn" narrative. Costa Rica's prior backing of Christiana Figueres provides climate-credibility framing.</span></td>
+      </tr>
+      <tr>
+        <td><strong>Michelle Bachelet</strong><br><span style="font-family:Arial,sans-serif;font-size:12px;color:#6b7c93">🇨🇱 Chile</span></td>
+        <td><span class="tag t-opposition">Chile (withdrawn)</span> <span class="tag t-formal">Brazil</span> <span class="tag t-formal">Mexico</span><br><span style="font-size:12px;color:#555">Joint nomination filed 2 February 2026. Vision statement filed as A/80/616. <strong>Chile withdrew support 24 Mar 2026</strong> under President Kast — Brazil and Mexico remain co-sponsors.</span></td>
+        <td><span class="tag t-support">President Lula (Brazil)</span><br><span style="font-size:12px;color:#555">Lula praises her "experience, leadership and commitment to multilateralism." Brazil and Mexico continue active co-sponsorship.</span><br><br><span style="font-size:12px;color:#888;font-style:italic"><strong>24 Mar 2026:</strong> President Kast (Chile) formally withdrew support, citing "fragmentation of Latin American candidacies" and calling the bid "unviable." Described Bachelet's continuation as entailing "a significant cost" for Chile. — France 24 / UPI</span></td>
+        <td><span class="tag t-regional">GRULAC</span><br><span style="font-size:12px;color:#555">Backed by the three largest Latin American economies. Strongest regional institutional support of any candidate. Fits both the regional rotation and woman-SG narratives.</span></td>
+      </tr>
+      <tr>
+        <td><strong>Rafael Grossi</strong><br><span style="font-family:Arial,sans-serif;font-size:12px;color:#6b7c93">🇦🇷 Argentina</span></td>
+        <td><span class="tag t-formal">Argentina</span><br><span style="font-size:12px;color:#555">Formal nomination 26 November 2025. Posted on UN SG-selection page.</span></td>
+        <td><span class="tag t-support">Italy</span> <span class="tag t-support">Paraguay</span><br><span style="font-size:12px;color:#555">Listed as endorsing states in updated documentation. Argentine G20 Sherpa and senior ministers publicly back him. Campaign launched at CARI event in Buenos Aires, December 2025.</span><br><br><span style="font-size:12px;color:#888;font-style:italic">Complication: President Milei's anti-UN rhetoric creates political optics tension.</span></td>
+        <td><span class="tag t-regional">Global North signals</span><br><span style="font-size:12px;color:#555">Described in some commentary as an early frontrunner with support from segments of the Global North that value his IAEA track record and pragmatic, deliverables-focused style.</span></td>
+      </tr>
+      <tr>
+        <td><strong>Macky Sall</strong><br><span style="font-family:Arial,sans-serif;font-size:12px;color:#6b7c93">🇸🇳 Senegal</span></td>
+        <td><span class="tag t-formal">Burundi (as AU Chair)</span><br><span style="font-size:12px;color:#555">Nomination letter submitted to UNGA on behalf of Senegal's former president by Burundi in its capacity as current African Union chair. Early March 2026.</span></td>
+        <td><span style="font-size:13px;color:#555">Specific state endorsements beyond Burundi's AU-chair nomination not yet documented on the UN site.</span><br><br><span class="tag t-support">Moussa Faki Mahamat</span><span style="font-size:12px;color:#555;display:block;margin-top:4px">Former AU Commission Chair publicly endorsed Sall on 10 March 2026 (CGTN).</span><br><span class="tag t-support">Herman J. Cohen</span><span style="font-size:12px;color:#555;display:block;margin-top:4px">Former US Assistant Secretary of State for Africa has also backed Sall.</span><br><br><span class="tag t-opposition">Domestic critics (civil society)</span><span style="font-size:12px;color:#555;display:block;margin-top:4px">Human rights critics and opposition figures raise governance concerns from his later presidential years. Not formal state opposition.</span></td>
+        <td><span class="tag t-opposition">AU endorsement failed</span><br><span style="font-size:12px;color:#555">The AU Bureau attempted a "silence procedure" to endorse Sall on 27 March 2026 — it failed when 20+ of 55 member states formally objected before the deadline. Objectors included South Africa, Nigeria, Algeria, Egypt, Rwanda, Ethiopia, Senegal itself, and others. The AU will not officially endorse him. Sall says he continues regardless.</span></td>
+      </tr>
+      <tr>
+        <td><strong>María Fernanda Espinosa</strong><br><span style="font-family:Arial,sans-serif;font-size:12px;color:#6b7c93">🇪🇨 Ecuador</span><br><span style="font-family:Arial,sans-serif;font-size:11px;color:#28a745;font-weight:700">🆕 Nominated 12 May 2026</span></td>
+        <td><span class="tag t-formal">Antigua and Barbuda</span><br><span style="font-size:12px;color:#555">Formally nominated on 12 May 2026. Vision statement filed same date. Cross-national nomination — Ecuador has not confirmed support. Espinosa states she has been outside Ecuadorian national politics for 8 years.</span></td>
+        <td><span style="font-size:13px;color:#555">No additional state endorsements documented to date. Xinhua (Chinese state media) gave prominent coverage to her nomination on May 13 — potentially a soft positive signal from Beijing.</span></td>
+        <td><span class="tag t-regional">GRULAC</span><br><span style="font-size:12px;color:#555">Her candidacy adds a third woman and second Ecuadorian-national to the GRULAC field. Small-state nominator (Antigua and Barbuda) limits initial bloc leverage. Likely to participate in a GA interactive dialogue, though no formal obligation for post-deadline candidates.</span></td>
+      </tr>
+      <tr>
+        <td><strong>Virginia Gamba</strong><br><span style="font-family:Arial,sans-serif;font-size:12px;color:#6b7c93">🇦🇷 Argentina</span><br><span style="font-family:Arial,sans-serif;font-size:11px;color:#dc3545;font-weight:700">⚠ WITHDRAWN 26–27 Mar 2026</span></td>
+        <td><span class="tag t-opposition">Maldives (withdrawn)</span><br><span style="font-size:12px;color:#555">Nominated by the Maldives on 11 March 2026 — the fifth formal candidate. <strong style="color:#dc3545">Maldives withdrew its nomination on 26–27 March 2026 without explanation.</strong> Candidacy is ended. Argentina's government backed Rafael Grossi throughout.</span></td>
+        <td><span style="font-size:13px;color:#888;font-style:italic">Candidacy ended. No further endorsements recorded.</span></td>
+        <td><span style="font-size:13px;color:#888;font-style:italic">Small island state nomination — no regional bloc ever engaged.</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <hr class="div">
+  <div class="section-label">Process</div>
+  <h2>Selection Timeline</h2>
+  <p class="subtext">The 10th Secretary-General will be selected through informal consultations between the Security Council and General Assembly, governed by the joint letter process and guided by principles of transparency and geographic rotation.</p>
+  <table class="end-table" style="margin-top:16px">
+    <thead><tr><th>Date</th><th>Milestone</th></tr></thead>
+    <tbody>
+      <tr><td>November 2025</td><td>Joint UNGA/SC letter opens nominations for the 10th Secretary-General</td></tr>
+      <tr><td>26 Nov 2025</td><td>Argentina formally nominates Rafael Grossi</td></tr>
+      <tr><td>Oct–Dec 2025</td><td>Costa Rica nominates Rebeca Grynspan; campaign launched</td></tr>
+      <tr><td>2 Feb 2026</td><td>Chile, Brazil &amp; Mexico jointly nominate Michelle Bachelet</td></tr>
+      <tr><td>Early Mar 2026</td><td>Burundi (as AU chair) nominates Macky Sall</td></tr>
+      <tr><td>3 Mar 2026</td><td>Costa Rica formally resubmits Rebeca Grynspan's candidacy; she steps aside from UNCTAD duties</td></tr>
+      <tr><td style="font-weight:700;color:#dc3545">24 Mar 2026</td><td><strong>Chile withdraws support for Bachelet.</strong> New President Kast cites "fragmentation of Latin American candidacies" and calls the bid "unviable." Brazil and Mexico remain co-sponsors. Bachelet says she continues. Grynspan's bid described as surging in response. — <em>France 24 / UPI</em></td></tr>
+      <tr><td>10 Mar 2026</td><td>Former AU Commission Chair Moussa Faki Mahamat publicly endorses Macky Sall</td></tr>
+      <tr><td>11 Mar 2026</td><td>Maldives nominates Virginia Gamba — fifth declared candidate</td></tr>
+      <tr><td style="font-weight:700;color:#dc3545">26–27 Mar 2026</td><td><strong>Maldives withdraws Virginia Gamba's nomination</strong> without explanation. Her candidacy ends. Field narrows. — <em>IBC World News / Social News XYZ</em></td></tr>
+      <tr><td style="font-weight:700;color:#dc3545">27 Mar 2026</td><td><strong>AU Bureau's silence procedure to endorse Macky Sall collapses.</strong> 20+ of 55 AU member states formally objected before the March 27 deadline. Objectors included South Africa, Nigeria, Algeria, Egypt, Rwanda, Ethiopia, and Senegal itself. The African Union will NOT officially endorse Sall. Sall announces he continues regardless. — <em>APAnews, Amani Africa, Morocco World News</em></td></tr>
+      <tr><td>28 Mar 2026</td><td>AU dispute flares further — Taarifa (Rwanda) reports Rwanda-Burundi tensions as a subtext of the Sall nomination failure. Sall maintains bid in press statements. — <em>Taarifa.rw, APAnews</em></td></tr>
+      <tr><td style="color:#009EDB;font-weight:700">1 Apr 2026</td><td><strong>Tentative deadline</strong> for new candidacy announcements (per PGA office guidance)</td></tr>
+      <tr><td>21–22 Apr 2026</td><td>Interactive dialogues with General Assembly — all four active candidates participate (broadcast live on UN WebTV). GA President Annalena Baerbock chairs. Extended to 3-hour sessions.</td></tr>
+      <tr><td style="font-weight:700;color:#28a745">12 May 2026</td><td><strong>Antigua and Barbuda nominates María Fernanda Espinosa Garcés (Ecuador)</strong> — 5th active candidate; 6th total nomination of cycle. Former Ecuadorian Foreign Minister, Defense Minister, and President of the 73rd UN General Assembly (2018–2019). Third woman in the race. — <em>1 for 8 Billion, PassBlue, Xinhua</em></td></tr>
+      <tr><td>19 May 2026</td><td>PassBlue publishes exclusive interview with Espinosa — campaign platform highlights "new financing compact" and rethinking SDG delivery model</td></tr>
+      <tr><td style="font-weight:700;color:#009EDB">29 May 2026</td><td><strong>SC agrees on modalities for informal candidate meetings.</strong> Bilateral meetings with all 15 SC members expected throughout June 2026, mirroring 2016 format. — <em>Security Council Report June 2026 Forecast</em></td></tr>
+      <tr><td>June 2026</td><td>SC informal candidate meetings underway. Civil society debate (Geneva) and UNA-UK hustings (London, end-May) take place. GA President to host "town hall" format event.</td></tr>
+      <tr><td>End July 2026</td><td>Informal SC straw polls expected to begin (DRC presidency July, Denmark August, France September, Greece October)</td></tr>
+      <tr><td>Autumn 2026</td><td>Formal SC recommendation to UNGA anticipated; GA appointment</td></tr>
+      <tr><td>1 Jan 2027</td><td>New Secretary-General term begins (replacing António Guterres)</td></tr>
+    </tbody>
+  </table>
+  <div class="note"><strong>About the data:</strong> Country endorsements reflect formal nomination letters and publicly reported state statements as of 4 June 2026. Sources include PassBlue, Reuters, Buenos Aires Times, Geneva Solutions, Anadolu Agency, CGTN, Amani Africa, Atalayar, Fox News, UN PGA documentation, Pan-African Visions, The Point (Gambia), APAnews, Morocco World News, IBC World News, France 24, UPI, and official UN selection-process filings. Last updated 30 March 2026.</div>
+</div>
+
+<!-- ═══════════════ TAB 5: DIALOGUES ═══════════════ -->
+<div id="dialogues" class="panel">
+  <div class="section-label">Primary Source Analysis</div>
+  <h2>Interactive Dialogue Breakdown</h2>
+  <p class="subtext">All four candidates participated in three-hour interactive dialogues with UN Member States and civil society on 21–22 April 2026, broadcast live on UN WebTV. Sessions were chaired by General Assembly President Annalena Baerbock. This tab synthesises candidate positions as expressed directly in those sessions.</p>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:32px">
+
+    <!-- GROSSI CARD -->
+    <div style="border:1px solid #e0e4e8;border-radius:8px;overflow:hidden">
+      <div style="background:#1a2744;padding:14px 20px;display:flex;align-items:center;gap:12px">
+        <img src="Grossi.png" alt="Grossi" style="width:40px;height:40px;border-radius:50%;border:2px solid #009EDB;object-fit:cover">
+        <div>
+          <div style="font-family:Arial,sans-serif;font-size:15px;color:#fff;font-weight:normal">Rafael Grossi</div>
+          <div style="font-family:Arial,sans-serif;font-size:11px;color:#009EDB;text-transform:uppercase;letter-spacing:1px">Argentina · Apr 21, 3–6 pm</div>
+        </div>
+      </div>
+      <div style="padding:18px 20px;font-size:13px;line-height:1.75;color:#333">
+        <div style="margin-bottom:14px">
+          <div style="font-family:Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#6b7c93;margin-bottom:5px">Headline framing</div>
+          <p><strong>"Enlightened pragmatism"</strong> — the crisis manager who can work with everyone.</p>
+        </div>
+        <div style="margin-bottom:14px;border-top:1px solid #f0f0f0;padding-top:12px">
+          <div style="font-family:Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#6b7c93;margin-bottom:5px">UN Reform</div>
+          <p>Would treat the Security Council as a "constant partner" with a permanent open channel — proactively engaged, not waiting to be tasked. Open-door office, regular staff town halls. Build on existing reforms from day one. On SC expansion: "widespread recognition that African underrepresentation needs to be addressed" and "progressive convergence of views."</p>
+        </div>
+        <div style="margin-bottom:14px;border-top:1px solid #f0f0f0;padding-top:12px">
+          <div style="font-family:Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#6b7c93;margin-bottom:5px">Peace &amp; Security</div>
+          <p>Led IAEA team to Zaporizhzhia under active conflict — his central credential. Negotiated directly with Russian and Ukrainian leaders simultaneously. "You are not there to lecture — you are there to help find a solution. And for you to be accepted by both sides, you need to be impartial." Would not wait to be tasked — would proactively engage to forestall conflict. P5 consensus now "transactional" even on non-proliferation — a structural problem he names explicitly.</p>
+        </div>
+        <div style="margin-bottom:14px;border-top:1px solid #f0f0f0;padding-top:12px">
+          <div style="font-family:Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#6b7c93;margin-bottom:5px">Key differentiator</div>
+          <p>Only candidate with active, ongoing crisis-management credentials across all P5 simultaneously. His impartiality in conflicts where all other candidates would be politically constrained is his core argument. Prediction-market frontrunner (~39.5% implied probability, Polymarket).</p>
+        </div>
+        <div style="background:#f0f7fb;border-left:3px solid #009EDB;padding:10px 14px;border-radius:0 4px 4px 0">
+          <p style="font-style:italic;font-size:13px;color:#1a2744">"There are enormous, huge doubts about our institution in solving global problems."</p>
+          <p style="font-style:italic;font-size:13px;color:#1a2744;margin-top:6px">"The art of being a good Secretary-General is to keep these good balances in place."</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- BACHELET CARD -->
+    <div style="border:1px solid #e0e4e8;border-radius:8px;overflow:hidden">
+      <div style="background:#1a2744;padding:14px 20px;display:flex;align-items:center;gap:12px">
+        <img src="Bachelet.png" alt="Bachelet" style="width:40px;height:40px;border-radius:50%;border:2px solid #009EDB;object-fit:cover">
+        <div>
+          <div style="font-family:Arial,sans-serif;font-size:15px;color:#fff;font-weight:normal">Michelle Bachelet</div>
+          <div style="font-family:Arial,sans-serif;font-size:11px;color:#009EDB;text-transform:uppercase;letter-spacing:1px">Chile · Apr 21, 10 am–1 pm</div>
+        </div>
+      </div>
+      <div style="padding:18px 20px;font-size:13px;line-height:1.75;color:#333">
+        <div style="margin-bottom:14px">
+          <div style="font-family:Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#6b7c93;margin-bottom:5px">Headline framing</div>
+          <p><strong>Dialogue and prevention</strong> — a moral voice anchored in human rights, field presence, and climate justice.</p>
+        </div>
+        <div style="margin-bottom:14px;border-top:1px solid #f0f0f0;padding-top:12px">
+          <div style="font-family:Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#6b7c93;margin-bottom:5px">UN Reform</div>
+          <p>Four pillars: institutional reform with purpose; reconnecting with people; reaffirming founding principles; designing the future. Pledges gender parity at the Secretariat. Human rights elevated to equal standing alongside peace/security and development — explicitly framed as a prevention tool. Improved civil society access to UN processes.</p>
+        </div>
+        <div style="margin-bottom:14px;border-top:1px solid #f0f0f0;padding-top:12px">
+          <div style="font-family:Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#6b7c93;margin-bottom:5px">Peace &amp; Security</div>
+          <p>"The UN must anticipate, prevent and unite." Next SG must be "physically present in the field." Links peace, development, and human rights into a coherent preventive agenda. Climate change framed as both an existential threat and a conflict driver. Addresses Gaza/Ukraine/Iran through a prevention lens — failure of early engagement.</p>
+        </div>
+        <div style="margin-bottom:14px;border-top:1px solid #f0f0f0;padding-top:12px">
+          <div style="font-family:Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#6b7c93;margin-bottom:5px">Key differentiator</div>
+          <p>Strongest human rights pedigree; most explicitly normative candidate. Values-first platform. Faces sharpest P5 headwinds: formal US veto threat (Republican lawmakers → Rubio); China vulnerability over Xinjiang report. Retains Brazil and Mexico but not Chile.</p>
+        </div>
+        <div style="background:#f0f7fb;border-left:3px solid #009EDB;padding:10px 14px;border-radius:0 4px 4px 0">
+          <p style="font-style:italic;font-size:13px;color:#1a2744">"I stand before you to reclaim the urgent need for dialogue."</p>
+          <p style="font-style:italic;font-size:13px;color:#1a2744;margin-top:6px">"The next Secretary-General needs to be physically present in the field."</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- GRYNSPAN CARD -->
+    <div style="border:1px solid #e0e4e8;border-radius:8px;overflow:hidden">
+      <div style="background:#1a2744;padding:14px 20px;display:flex;align-items:center;gap:12px">
+        <img src="Grynspan.png" alt="Grynspan" style="width:40px;height:40px;border-radius:50%;border:2px solid #009EDB;object-fit:cover">
+        <div>
+          <div style="font-family:Arial,sans-serif;font-size:15px;color:#fff;font-weight:normal">Rebeca Grynspan</div>
+          <div style="font-family:Arial,sans-serif;font-size:11px;color:#009EDB;text-transform:uppercase;letter-spacing:1px">Costa Rica · Apr 22, 10 am–1 pm</div>
+        </div>
+      </div>
+      <div style="padding:18px 20px;font-size:13px;line-height:1.75;color:#333">
+        <div style="margin-bottom:14px">
+          <div style="font-family:Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#6b7c93;margin-bottom:5px">Headline framing</div>
+          <p><strong>Delivery-focused reform</strong> — the most concrete structural proposals, anchored in a proven diplomatic credential.</p>
+        </div>
+        <div style="margin-bottom:14px;border-top:1px solid #f0f0f0;padding-top:12px">
+          <div style="font-family:Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#6b7c93;margin-bottom:5px">UN Reform — most detailed of any candidate</div>
+          <ul style="padding-left:18px;margin:0">
+            <li>Restructure SG executive office as a <strong>first act</strong></li>
+            <li>Merge DPPA and DPO planning capacities — currently "neither coherent nor coordinated"</li>
+            <li>Make HQ a conduit for field intelligence, not a wall blocking it</li>
+            <li>Clearer, more realistic peacekeeping mandates</li>
+            <li>Vulnerability-based development metrics to replace GDP-only resource allocation</li>
+            <li>New UN financing arrangements; more representative Security Council</li>
+          </ul>
+        </div>
+        <div style="margin-bottom:14px;border-top:1px solid #f0f0f0;padding-top:12px">
+          <div style="font-family:Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#6b7c93;margin-bottom:5px">Peace &amp; Security</div>
+          <p>Peacemaking declared her top priority. Early engagement, direct dialogue, close SC coordination. <strong>Black Sea Grain Initiative</strong> is her proof of concept: 32 million tons of grain exported, global food prices reduced 22%, food insecurity averted — achieved through a small, nimble SG-office team. Wants to replicate this model. Met FM Lavrov in Moscow 7 April — only publicly confirmed candidate-to-P5 FM bilateral meeting ahead of dialogues.</p>
+        </div>
+        <div style="margin-bottom:14px;border-top:1px solid #f0f0f0;padding-top:12px">
+          <div style="font-family:Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#6b7c93;margin-bottom:5px">Key differentiator</div>
+          <p>Most operationally specific reform agenda. Black Sea deal is a concrete "I did this" credential. Combines Grossi's pragmatism with Bachelet's normative framework but with sharper operational focus. No known P5 veto threat. Described by Foreign Policy as one of the two structurally strongest candidacies alongside Grossi.</p>
+        </div>
+        <div style="background:#f0f7fb;border-left:3px solid #009EDB;padding:10px 14px;border-radius:0 4px 4px 0">
+          <p style="font-style:italic;font-size:13px;color:#1a2744">"The UN has become a risk-conservative organisation."</p>
+          <p style="font-style:italic;font-size:13px;color:#1a2744;margin-top:6px">"I will continue to be the moral voice and the impartial voice that the Secretary-General has to be."</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SALL CARD -->
+    <div style="border:1px solid #e0e4e8;border-radius:8px;overflow:hidden">
+      <div style="background:#1a2744;padding:14px 20px;display:flex;align-items:center;gap:12px">
+        <img src="Sall.png" alt="Sall" style="width:40px;height:40px;border-radius:50%;border:2px solid #009EDB;object-fit:cover">
+        <div>
+          <div style="font-family:Arial,sans-serif;font-size:15px;color:#fff;font-weight:normal">Macky Sall</div>
+          <div style="font-family:Arial,sans-serif;font-size:11px;color:#009EDB;text-transform:uppercase;letter-spacing:1px">Senegal · Apr 22, 3–6 pm</div>
+        </div>
+      </div>
+      <div style="padding:18px 20px;font-size:13px;line-height:1.75;color:#333">
+        <div style="margin-bottom:14px">
+          <div style="font-family:Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#6b7c93;margin-bottom:5px">Headline framing</div>
+          <p><strong>Bridge-builder and Global South voice</strong> — sovereignty-based multilateralism, African representation, peacekeeping reform.</p>
+        </div>
+        <div style="margin-bottom:14px;border-top:1px solid #f0f0f0;padding-top:12px">
+          <div style="font-family:Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#6b7c93;margin-bottom:5px">UN Reform</div>
+          <p>Three pillars: (1) integrated vision of peace, security, development, and prosperity; (2) renewed and revitalised multilateralism; (3) stronger UN governance. Stronger African SC representation. Operationalise Resolution 2719 (AU peacekeeping funding). Fully integrate the humanitarian-development-peace nexus. Treats all UN members equally while coordinating with regional blocs.</p>
+        </div>
+        <div style="margin-bottom:14px;border-top:1px solid #f0f0f0;padding-top:12px">
+          <div style="font-family:Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#6b7c93;margin-bottom:5px">Peace &amp; Security</div>
+          <p>Peacekeeping is his signature issue — draws on Senegal's track record as a major troop-contributing country. Calls for more robust and effective mandates. On Iran/US/Israel: called for continued diplomacy and support for Pakistan-led mediation, urging all parties to maintain a ceasefire. Strong sovereignty emphasis — state-centric approach contrasts with more interventionist candidates.</p>
+        </div>
+        <div style="margin-bottom:14px;border-top:1px solid #f0f0f0;padding-top:12px">
+          <div style="font-family:Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#6b7c93;margin-bottom:5px">Key differentiator</div>
+          <p>Only African candidate; most explicit on Global South representation. Structurally weakest candidacy: nominated by one state (Burundi), no AU endorsement, home government (Senegal) opposed. IPI identifies him as the candidate with the least political backing of the four.</p>
+        </div>
+        <div style="background:#f0f7fb;border-left:3px solid #009EDB;padding:10px 14px;border-radius:0 4px 4px 0">
+          <p style="font-style:italic;font-size:13px;color:#1a2744">"I would be a bridge-builder whose first priority would be to contribute to restoring trust, to calm tensions, reduce fragmentation and breathe renewed hope into our collective action."</p>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /grid -->
+
+  <hr class="div">
+  <div class="section-label">Cross-Candidate Comparison</div>
+  <h2>How They Differ on Key Dimensions</h2>
+  <p class="subtext" style="margin-bottom:20px">Based on the April 21–22 dialogues and campaign statements.</p>
+
+  <div style="overflow-x:auto;border:1px solid #e0e4e8;border-radius:8px">
+  <table style="width:100%;border-collapse:collapse;font-size:13px;min-width:700px">
+    <thead>
+      <tr>
+        <th style="padding:13px 16px;background:#1a2744;color:#fff;text-align:left;font-family:Arial,sans-serif;font-size:12px;font-weight:700;width:18%">Dimension</th>
+        <th style="padding:13px 16px;background:#1a2744;color:#fff;text-align:left;font-family:Arial,sans-serif;font-size:12px;font-weight:700;width:20%">🇦🇷 Grossi</th>
+        <th style="padding:13px 16px;background:#1a2744;color:#fff;text-align:left;font-family:Arial,sans-serif;font-size:12px;font-weight:700;width:20%">🇨🇱 Bachelet</th>
+        <th style="padding:13px 16px;background:#1a2744;color:#fff;text-align:left;font-family:Arial,sans-serif;font-size:12px;font-weight:700;width:21%">🇨🇷 Grynspan</th>
+        <th style="padding:13px 16px;background:#1a2744;color:#fff;text-align:left;font-family:Arial,sans-serif;font-size:12px;font-weight:700;width:21%">🇸🇳 Sall</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="padding:12px 16px;font-family:Arial,sans-serif;font-weight:700;font-size:11px;background:#f0f2f5;text-transform:uppercase;letter-spacing:.8px;vertical-align:middle">Overall style</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e0e4e8;vertical-align:top">Pragmatist technocrat</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e0e4e8;vertical-align:top">Normative-moral leader</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e0e4e8;vertical-align:top">Delivery-focused reformer</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e0e4e8;vertical-align:top">Political bridge-builder</td>
+      </tr>
+      <tr>
+        <td style="padding:12px 16px;font-family:Arial,sans-serif;font-weight:700;font-size:11px;background:#f0f2f5;text-transform:uppercase;letter-spacing:.8px;vertical-align:middle">UN Reform specificity</td>
+        <td style="padding:12px 16px;background:#fafbfc;border-bottom:1px solid #e0e4e8;vertical-align:top">Moderate — SC partnership, open office</td>
+        <td style="padding:12px 16px;background:#fafbfc;border-bottom:1px solid #e0e4e8;vertical-align:top">Moderate — pillars, gender parity</td>
+        <td style="padding:12px 16px;background:#fafbfc;border-bottom:1px solid #e0e4e8;vertical-align:top"><strong>Highest</strong> — DPPA/DPO merger, mandates, metrics</td>
+        <td style="padding:12px 16px;background:#fafbfc;border-bottom:1px solid #e0e4e8;vertical-align:top">Moderate — SC reform, Resolution 2719</td>
+      </tr>
+      <tr>
+        <td style="padding:12px 16px;font-family:Arial,sans-serif;font-weight:700;font-size:11px;background:#f0f2f5;text-transform:uppercase;letter-spacing:.8px;vertical-align:middle">Key credential</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e0e4e8;vertical-align:top">Zaporizhzhia / IAEA crisis mgmt</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e0e4e8;vertical-align:top">Two presidencies + OHCHR</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e0e4e8;vertical-align:top">Black Sea Grain Initiative</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e0e4e8;vertical-align:top">Senegal peacekeeping; African voice</td>
+      </tr>
+      <tr>
+        <td style="padding:12px 16px;font-family:Arial,sans-serif;font-weight:700;font-size:11px;background:#f0f2f5;text-transform:uppercase;letter-spacing:.8px;vertical-align:middle">Human rights</td>
+        <td style="padding:12px 16px;background:#fafbfc;border-bottom:1px solid #e0e4e8;vertical-align:top">Pragmatic — not ideological</td>
+        <td style="padding:12px 16px;background:#fafbfc;border-bottom:1px solid #e0e4e8;vertical-align:top">Central pillar; prevention tool</td>
+        <td style="padding:12px 16px;background:#fafbfc;border-bottom:1px solid #e0e4e8;vertical-align:top">Normative + operational balance</td>
+        <td style="padding:12px 16px;background:#fafbfc;border-bottom:1px solid #e0e4e8;vertical-align:top">Sovereignty-cautious</td>
+      </tr>
+      <tr>
+        <td style="padding:12px 16px;font-family:Arial,sans-serif;font-weight:700;font-size:11px;background:#f0f2f5;text-transform:uppercase;letter-spacing:.8px;vertical-align:middle">Development / Finance</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e0e4e8;vertical-align:top">Not central to platform</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e0e4e8;vertical-align:top">Climate justice; protect LDCs</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e0e4e8;vertical-align:top"><strong>Strongest</strong> — debt, vulnerability metrics, new financing</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e0e4e8;vertical-align:top">Peace-development nexus; AU frameworks</td>
+      </tr>
+      <tr>
+        <td style="padding:12px 16px;font-family:Arial,sans-serif;font-weight:700;font-size:11px;background:#f0f2f5;text-transform:uppercase;letter-spacing:.8px;vertical-align:middle">P5 vulnerability</td>
+        <td style="padding:12px 16px;background:#fafbfc;border-bottom:1px solid #e0e4e8;vertical-align:top">Lowest — no known veto threat</td>
+        <td style="padding:12px 16px;background:#fafbfc;border-bottom:1px solid #e0e4e8;vertical-align:top"><strong>Highest</strong> — US veto threat; China Xinjiang sensitivity</td>
+        <td style="padding:12px 16px;background:#fafbfc;border-bottom:1px solid #e0e4e8;vertical-align:top">Low — Lavrov meeting; no known opposition</td>
+        <td style="padding:12px 16px;background:#fafbfc;border-bottom:1px solid #e0e4e8;vertical-align:top">Medium — Russia/China favour; US/UK cautious</td>
+      </tr>
+      <tr>
+        <td style="padding:12px 16px;font-family:Arial,sans-serif;font-weight:700;font-size:11px;background:#f0f2f5;text-transform:uppercase;letter-spacing:.8px;vertical-align:middle">Structural position</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e0e4e8;vertical-align:top">Strong — Argentina + Italy + Paraguay</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e0e4e8;vertical-align:top">Fragile — Brazil + Mexico only</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e0e4e8;vertical-align:top">Strong — Costa Rica; no P5 opposition</td>
+        <td style="padding:12px 16px;border-bottom:1px solid #e0e4e8;vertical-align:top"><strong>Weakest</strong> — Burundi only; no AU, home country opposed</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="note" style="margin-top:20px"><strong>Sources:</strong> PassBlue ("Faces the General Assembly" series, Apr 28–May 1); AP/Washington Post (Apr 26); NPR (Apr 23); Geneva Solutions (Apr 23, updated Apr 29); CFR Grossi interview takeaways; UN News story 1167342; The National (Apr 22); Africanews (Apr 23). Videos shared by user: <a href="https://www.youtube.com/watch?v=DX2F8ZeAg0c" target="_blank" style="color:#009EDB">YouTube</a> · <a href="https://www.youtube.com/watch?v=4bklOJrzkyQ" target="_blank" style="color:#009EDB">YouTube</a> · <a href="https://www.youtube.com/watch?v=EWetIDudHEE" target="_blank" style="color:#009EDB">YouTube</a> · <a href="https://www.youtube.com/watch?v=0hhE5b0NlMs" target="_blank" style="color:#009EDB">YouTube</a> · <a href="https://www.youtube.com/watch?v=bNHK9SCnq1g" target="_blank" style="color:#009EDB">YouTube</a> · <a href="https://www.youtube.com/watch?v=b8YwmNhupUo" target="_blank" style="color:#009EDB">YouTube</a>. Analysis based on press coverage; direct video transcript analysis pending.</div>
+</div>
+<!-- END TAB 5: DIALOGUES -->
+
+<!-- ═══════════════ TAB 6: LATEST NEWS ═══════════════ -->
+<div id="latestnews" class="panel">
+  <div class="section-label">Intelligence Updates</div>
+  <h2>Latest News Digest</h2>
+  <p class="subtext">Compiled from automated bi-weekly sweeps (Tuesday &amp; Friday). Each entry reflects new coverage since the previous run. Entries are prepended — newest first.</p>
+
+  <!-- ─── DIGEST: 17 June 2026 ─── -->
+  <div style="border:2px solid #009EDB;border-radius:8px;overflow:hidden;margin-bottom:28px">
+    <div style="background:#1a2744;color:#fff;padding:12px 20px;display:flex;justify-content:space-between;align-items:center">
+      <span style="font-family:Arial,sans-serif;font-size:13px;font-weight:700">17 June 2026</span>
+      <span style="font-family:Arial,sans-serif;font-size:11px;color:#aab4c4">Scheduled run — Tuesday</span>
+    </div>
+    <div style="padding:16px 20px;font-size:13px;line-height:1.75;color:#333">
+
+      <div style="margin-bottom:14px">
+        <span style="font-family:Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#009EDB">🆕 New / Potential Candidates</span><br>
+        No new names surfaced this cycle. The field remains at <strong>5 active candidates</strong> (Grossi, Bachelet, Grynspan, Sall, Espinosa). Espinosa's candidacy — confirmed in the June 4 digest — is now fully established. She participated in an interactive dialogue before the General Assembly (webcast on UN WebTV). <em>UN WebTV</em>
+      </div>
+
+      <div style="margin-bottom:14px;border-top:1px solid #f0f0f0;padding-top:12px">
+        <span style="font-family:Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#009EDB">🏛️ P5 Positioning &amp; Endorsements</span><br>
+
+        <strong>🇨🇳 China — Major development: Beijing hosts Bachelet, June 3–4 2026</strong><br>
+        Chinese Vice President Han Zheng and Foreign Minister Wang Yi both met Michelle Bachelet in Beijing on June 3–4 — the highest-level P5 candidate engagement of the entire race so far. VP Han said China will "earnestly fulfill its responsibilities" on the SC and protect "the common interests of the Global South." Bachelet praised China's "long-term and firm commitment to multilateralism." No formal endorsement, but the dual high-level meeting is the clearest directional signal from any P5 member yet — widely interpreted as a soft lean toward Bachelet. Xinhua and People's Daily gave the meeting prominent coverage.<br>
+        <em>People's Daily, Xinhua, China Daily, Embassy of China in the US — 3–4 June 2026</em><br><br>
+
+        <strong>🇨🇳 China — Wang Yi articulates SG qualifications</strong><br>
+        FM Wang Yi on May 27, chairing a high-level SC meeting on upholding the UN Charter, laid out four criteria for the next SG: (1) firm commitment to the UN Charter; (2) rich diplomatic experience and coordination capability; (3) ability to uphold justice for developing countries; (4) keeping UN reform on the right track. "Commitment to the UN Charter; outstanding competency; integrity and impartiality; and initiative to take responsibility and deliver." No candidate named. The criteria profile broadly fits Bachelet and Grynspan, and China said it will "take a responsible attitude to participate in the selection process."<br>
+        <em>Xinhua — 27 May 2026</em><br><br>
+
+        <strong>🇷🇺 Russia — No new endorsement; straw polls date confirmed</strong><br>
+        Russian Permanent Representative Nebenzya stated the next SG "will not be able to resolve the Ukrainian conflict alone" but may play a role. No candidate preference stated. TASS reporting confirms SC straw polls expected to begin <strong>24 July 2026</strong> — the clearest timeline confirmation yet. Russia's key concern remains finding a candidate who will not instrumentalise the SG role against Russian positions on Ukraine.<br>
+        <em>TASS — recent</em><br><br>
+
+        <strong>🇺🇸 US / 🇫🇷 France / 🇬🇧 UK</strong> — No new public endorsements or signals this cycle. FDD (Foundation for Defense of Democracies) April 24 analysis ("Will the Next UN Leader Be Good for America?") remains the most recent US-adjacent commentary, flagging concern that no leading candidate is clearly aligned with current US priorities. France and UK: no new statements.
+      </div>
+
+      <div style="margin-bottom:14px;border-top:1px solid #f0f0f0;padding-top:12px">
+        <span style="font-family:Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#009EDB">⚙️ Process &amp; General Developments</span><br>
+        <strong>SC straw polls confirmed for 24 July 2026:</strong> TASS reporting and process analysis confirm informal SC straw polls to begin on or around <strong>24 July 2026</strong>. The selection will formally conclude as soon as one candidate secures 9 SC votes including no P5 vetoes. Straw polls proceed across four rotating presidencies: DRC (July), Denmark (August), France (September), Greece (October).<br>
+        <strong>New SC members elected June 3:</strong> The General Assembly elected five new non-permanent SC members on June 3 — Austria, Germany, Portugal (WEOG), and Trinidad &amp; Tobago and Zimbabwe (uncontested African/GRULAC seats). The Philippines or Kyrgyzstan will hold the Asia-Pacific seat. New members take their seats January 1, 2027 — they will serve alongside whichever new SG is appointed. <em>Security Council Report, June 2026 Forecast</em><br>
+        <strong>SC informal candidate meetings ongoing:</strong> SC members met in May (under China's presidency) to agree modalities for informal June candidate meetings, following the 2016 format. Meetings with all 5 candidates are expected throughout June 2026. <em>Security Council Report</em><br>
+        <strong>Civil society events:</strong> UNA-UK hustings in London (end of May) and a planned civil society debate in Geneva (early June) have now occurred. A GA "town hall" event is also expected, per UNGA President Annalena Baerbock's announcement.
+      </div>
+
+      <div style="border-top:1px solid #f0f0f0;padding-top:12px">
+        <span style="font-family:Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#009EDB">📌 Candidate Updates</span><br>
+        <strong>Bachelet 🇨🇱</strong> — <strong>Beijing visit June 3–4 is the defining development of this cycle.</strong> VP Han Zheng and FM Wang Yi both received her — the first candidate to secure dual meetings at that level with any P5 member. Despite Chile's withdrawal, Brazil and Mexico sustain her nomination. The Beijing visit significantly alters the P5 calculus: prior analysis flagged China as a potential concern due to the Xinjiang report; the high-profile reception suggests China is willing to look past that, or has reassessed. US veto risk (Republican lawmakers' request to Rubio) remains the central structural headwind. <em>Xinhua, People's Daily, China Daily, Breitbart (noting controversy) — June 2026</em><br><br>
+        <strong>Grynspan 🇨🇷</strong> — No significant new coverage this cycle. Remains on special leave from UNCTAD through September 30, 2026. Continues to be identified alongside Grossi as structurally strongest candidacy. No known P5 veto risk is her core asset; China's Bachelet lean may not foreclose China support for Grynspan if Bachelet falters on the US veto.<br><br>
+        <strong>Grossi 🇦🇷</strong> — No significant new articles this cycle. Continues as IAEA Director-General while running. Remains the candidate most acceptable to the US. CFR published a detailed interview ("How Rafael Grossi Would Lead the United Nations: Three Interview Takeaways") this cycle. Chatham House hosted a joint vision event with Grynspan. <em>CFR, Chatham House</em><br><br>
+        <strong>Sall 🇸🇳</strong> — No new coverage this cycle. Structural position unchanged: nominated by Burundi only, no AU endorsement, Senegal opposed. Opinio Juris legal analysis (May 5) noted the "unusual" nature of his cross-national nomination. PassBlue (April 20) analysis "Why Macky Sall Can't Count on Africa" remains the definitive framing of his regional weakness.<br><br>
+        <strong>Espinosa 🇪🇨</strong> — Completed interactive dialogue with the General Assembly (UN WebTV). PassBlue interview (May 19) and Reuters/France24 coverage remain her most substantive press. No new P5 signals specifically targeting her candidacy this cycle, despite earlier Xinhua prominence.
+      </div>
+
+    </div>
+  </div>
+  <!-- END DIGEST 17 June 2026 -->
+
+  <!-- ─── DIGEST: 4 June 2026 ─── -->
+  <div style="border:2px solid #009EDB;border-radius:8px;overflow:hidden;margin-bottom:28px">
+    <div style="background:#1a2744;color:#fff;padding:12px 20px;display:flex;justify-content:space-between;align-items:center">
+      <span style="font-family:Arial,sans-serif;font-size:13px;font-weight:700">4 June 2026</span>
+      <span style="font-family:Arial,sans-serif;font-size:11px;color:#aab4c4">Scheduled run — Thursday</span>
+    </div>
+    <div style="padding:16px 20px;font-size:13px;line-height:1.75;color:#333">
+
+      <div style="margin-bottom:14px">
+        <span style="font-family:Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#009EDB">🆕 New / Potential Candidates</span><br>
+        <strong style="color:#28a745">⚠ NEW CANDIDATE CONFIRMED: María Fernanda Espinosa Garcés (Ecuador)</strong><br>
+        Formally nominated by <strong>Antigua and Barbuda</strong> on <strong>12 May 2026</strong>. She is the 5th active candidate in the race, joining after the nominal April 1 deadline. Former Foreign Minister and Defense Minister of Ecuador, and President of the 73rd UN General Assembly (2018–2019). Espinosa is the <strong>third woman</strong> in the race alongside Bachelet and Grynspan — an historic concentration of women candidates. She was not nominated by her own country Ecuador; government support is uncertain. Active candidates now total 5: Grossi, Bachelet, Grynspan, Sall, Espinosa.<br><br>
+        <strong>Sources:</strong><br>
+        • <em>PassBlue</em> | "There Is No Lack of Money in the World": María Fernanda Espinosa | May 19, 2026 — PassBlue interview covering her platform on UN finance reform and SDG delivery. Noted as the only candidate to explicitly address the UN liquidity crisis with concrete proposals.<br>
+        • <em>1 for 8 Billion</em> | María Fernanda Espinosa Nominated for UN Secretary-General | May 12, 2026<br>
+        • <em>Geneva Solutions</em> | Former Ecuadorian foreign minister becomes third woman in UN leadership race | May 2026<br>
+        • <em>Xinhua</em> (Chinese state media) | Former UN General Assembly President Espinosa runs for next UN secretary-general | May 13, 2026 — Prominent coverage by China's state news agency; may signal Beijing's interest in her candidacy.
+      </div>
+
+      <div style="margin-bottom:14px;border-top:1px solid #f0f0f0;padding-top:12px">
+        <span style="font-family:Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#009EDB">🏛️ P5 Positioning &amp; Endorsements</span><br>
+        No P5 country has publicly endorsed a candidate. Key signals this cycle:<br><br>
+        <strong>🇺🇸 US</strong> — US wariness toward multilateral institutions continues. Analysts flag Bachelet as the highest US veto risk. Grossi remains most acceptable to Washington. Think tank FDD (Foundation for Defense of Democracies) published analysis questioning whether any leading candidate is "good for America" (Apr 24). No formal Trump administration endorsement.<br>
+        <strong>🇷🇺 Russia</strong> — No new public signal. Analyst commentary from prior cycle noted Grynspan "visited Russia and reacted understandingly" — the most positive Russia-adjacent signal for any Latin American candidate. Russian state media continues favourable framing toward Grossi.<br>
+        <strong>🇨🇳 China</strong> — Held SC presidency in May 2026; chaired SG-related Council discussions. No public endorsement. Xinhua's prominent coverage of Espinosa's nomination (May 13) is noted — potentially a soft positive signal. Grossi's March 26 Beijing visit and Wang Yi bilateral meeting remain the most substantial P5 campaign contact from any candidate.<br>
+        <strong>🇫🇷 France / 🇬🇧 UK</strong> — No endorsements. SC members agreed on May 29 on modalities for informal candidate meetings in June. France holds September SC presidency — a key straw poll month — giving Paris unusual procedural leverage at a critical juncture. Both UK and France noted as supportive in principle of a woman SG.<br><br>
+        <em>Security Council Report (May 1):</em> Council dynamics are "more polarised and transactional" than in 2016, with P5 members coalescing around preserving process flexibility while elected members push for transparency. <em>Foreign Policy / NPR (April–May 2026)</em>
+      </div>
+
+      <div style="margin-bottom:14px;border-top:1px solid #f0f0f0;padding-top:12px">
+        <span style="font-family:Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#009EDB">⚙️ Process &amp; General Developments</span><br>
+        <strong>SC candidate meetings confirmed for June 2026:</strong> SC members agreed on May 29 on modalities for informal meetings with candidates, following the 2016 format (held at the mission of the Council president). Meetings expected throughout June. <em>Security Council Report, June 2026 Forecast</em><br>
+        <strong>Straw polls timeline:</strong> Informal SC straw polls expected to begin <strong>end of July 2026</strong>, running across four consecutive presidencies: DRC (July), Denmark (August), France (September), Greece (October). France's September presidency is particularly notable given its unusual procedural weight.<br>
+        <strong>Civil society &amp; additional dialogues:</strong> A civil society debate was planned for Geneva in early June; UNA-UK hosted a moderated presidential debate-style hustings in London (end of May). GA President Annalena Baerbock announced a "town hall" format event with candidates. Additional informal dialogues may be held in Geneva, Nairobi, Bangkok, and Panama City.<br>
+        <strong>6 total nominations, 1 withdrawn (Gamba):</strong> Espinosa's May 12 nomination makes 6 total historical nominations in this cycle. Field of 5 active candidates is the largest since the April 22 dialogues. Candidates nominated after April 1 are expected to participate in an interactive dialogue, though there is no formal obligation. <em>Security Council Report, May 2026 Monthly Forecast</em>
+      </div>
+
+      <div style="border-top:1px solid #f0f0f0;padding-top:12px">
+        <span style="font-family:Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#009EDB">📌 Candidate Updates</span><br>
+        <strong>Grynspan 🇨🇷</strong> — On special leave from UNCTAD through September 30, 2026. No major new articles surfaced since the May 5 digest. Continues to be described by Foreign Policy alongside Grossi as one of the two structurally strongest candidacies. Indirect Russia positive signal (prior cycle's Lavrov meeting) and no known P5 veto risk remain her key structural advantages.<br>
+        <strong>Bachelet 🇨🇱</strong> — No significant new coverage this cycle. US veto threat (Republican lawmakers' request to Rubio) remains the dominant structural headwind. Brazil and Mexico continue as co-nominators. Retains strongest human rights credentials and normative legitimacy of any candidate.<br>
+        <strong>Grossi 🇦🇷</strong> — No significant new coverage this cycle. Remains widely identified by diplomats as the frontrunner. CFR interview and prediction market position (~39.5% on Polymarket in May) reflect durable frontrunner status. His decade of managing P5 relationships at the IAEA is his central structural advantage.<br>
+        <strong>Sall 🇸🇳</strong> — <em>Opinio Juris</em> (May 5) published legal/academic analysis of the "unusual" nature of his cross-national nomination by Burundi. <em>Amani Africa</em> continues to note he is not an AU-endorsed candidate. No new campaign developments. Structurally weakest candidacy: nominated by Burundi only, no AU endorsement, home government (Senegal) opposed.<br>
+        <strong>Espinosa 🇪🇨</strong> — NEW. PassBlue interview (May 19) is her most substantial public profile to date. Vision statement filed with the UN on May 12. Described as the only candidate to directly address the UN liquidity crisis with a proposed "new financing compact." Unclear whether she will be scheduled for a separate GA interactive dialogue; expected under informal norms but no formal obligation.
+      </div>
+
+    </div>
+  </div>
+  <!-- END DIGEST 4 June 2026 -->
+
+  <!-- ─── DIGEST: 5 May 2026 ─── -->
+  <div style="border:2px solid #009EDB;border-radius:8px;overflow:hidden;margin-bottom:28px">
+    <div style="background:#1a2744;color:#fff;padding:12px 20px;display:flex;justify-content:space-between;align-items:center">
+      <span style="font-family:Arial,sans-serif;font-size:13px;font-weight:700">5 May 2026</span>
+      <span style="font-family:Arial,sans-serif;font-size:11px;color:#aab4c4">Scheduled run — Tuesday</span>
+    </div>
+    <div style="padding:16px 20px;font-size:13px;line-height:1.75;color:#333">
+
+      <div style="margin-bottom:14px">
+        <span style="font-family:Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#009EDB">🆕 New / Potential Candidates</span><br>
+        No new names surfaced this cycle. The field remains at <strong>4 active candidates</strong> (Grossi, Bachelet, Grynspan, Sall). The fifth candidacy — Virginia Gamba, nominated by the Maldives — was withdrawn in late March and remains ended. No candidate emerged after the April 1 nominal deadline. <em>Multiple sources</em>
+      </div>
+
+      <div style="margin-bottom:14px;border-top:1px solid #f0f0f0;padding-top:12px">
+        <span style="font-family:Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#009EDB">🏛️ P5 Positioning &amp; Endorsements</span><br>
+        <strong>🇺🇸 US</strong> — Republican lawmakers formally wrote to Secretary Rubio requesting the US veto be used to block Bachelet, citing her pro-abortion record and perceived softness on China's Uyghur abuses. UN envoy Mike Waltz reportedly signalled shared concerns — widely read as the Trump administration effectively torpedoing Bachelet's bid. Grossi seen as most acceptable to Washington among the four candidates. <em>Devex, Yahoo News, April 2026</em><br>
+        <strong>🇨🇳 China</strong> — Holds the Security Council presidency in May 2026, meaning Beijing chairs any SG-related Council discussions this month. No public candidate endorsement. Bachelet's vulnerability with China persists (Xinjiang report delay, 2022 visit optics). Grossi's March 26 Beijing visit and FM Wang Yi meeting remain the most significant P5 bilateral contact from any candidate. <em>Geneva Solutions, Times of Israel</em><br>
+        <strong>🇷🇺 Russia</strong> — No public endorsement. Analyst consensus: Russia and China likely to align against whichever candidate the US/UK/France collectively back — the central structural risk in the process. Russian state media continues to frame race favourably toward Grossi. <em>Pravda France, unric.org</em><br>
+        <strong>🇫🇷 France</strong> — No public endorsement. France holds the Security Council presidency in September — one of the straw poll months — giving Paris unusual procedural influence at a critical juncture. Expected to align with US/UK on a preferred candidate. <em>Security Council Report, May 2026 Forecast</em><br>
+        <strong>🇬🇧 UK</strong> — No public endorsement this cycle. UK and France both known to support a woman SG in principle but have made no public candidate statements. <em>IPI Global Observatory</em>
+      </div>
+
+      <div style="margin-bottom:14px;border-top:1px solid #f0f0f0;padding-top:12px">
+        <span style="font-family:Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#009EDB">⚙️ Process &amp; General Developments</span><br>
+        <strong>Post-dialogue phase underway:</strong> All four candidates completed their General Assembly interactive dialogues 21–22 April (broadcast live on UN WebTV). Race now moves into an informal Security Council engagement phase — candidates expected to meet Council members bilaterally, mirroring the June/July/October 2016 format. <em>Security Council Report, CIC/NYU</em><br>
+        <strong>Straw polls timeline confirmed:</strong> SC informal straw polls expected to begin <strong>end of July 2026</strong>, running across four consecutive Council presidencies: DRC (July), Denmark (August), France (September), Greece (October). <em>Security Council Report, May 2026 Monthly Forecast</em><br>
+        <strong>IPI Global Observatory (Apr 2026):</strong> "The 2026 SG Race: Too Many Candidacies Without Political Backing" — Structural weakness in the field: Sall nominated by only one state (Burundi) with no AU endorsement; Bachelet lost home-country backing. Grossi and Grynspan identified as candidates with the most durable support bases. <em>IPI Global Observatory</em><br>
+        <strong>IPI Global Observatory (Apr 2026):</strong> "Will It Be the Shortest or Longest SG Race in UN History?" — Examines whether P5 consensus could emerge quickly or deadlock could push process through all four straw poll rounds. <em>IPI Global Observatory</em><br>
+        <strong>Just Security (Apr 2026):</strong> "A Growing Number of Countries Favor a Woman for the Post" — Documents a coalition of member states signalling they may reject a Security Council recommendation if it produces a male candidate, adding indirect leverage on P5 deliberations. <em>Just Security</em><br>
+        <strong>National Review / AEI (May 2026):</strong> "The Race for the Next UN Secretary-General Starts with a Whimper" — Commentary characterising the post-dialogue phase as lacking drama or a clear frontrunner. <em>National Review / AEI</em>
+      </div>
+
+      <div style="border-top:1px solid #f0f0f0;padding-top:12px">
+        <span style="font-family:Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#009EDB">📌 Candidate Updates</span><br>
+        <strong>Grynspan 🇨🇷</strong> — <strong>PassBlue (30 Apr, NEW):</strong> "Rebeca Grynspan Faces the General Assembly" — PassBlue deep-dive on her April 22 GA dialogue (morning session); spoke extensively on UN reform and fiscal constraints. <strong>PassBlue (23 Apr):</strong> "Rebeca Grynspan and Macky Sall Each Push Their Bids" — covered her dialogue performance. Foreign Policy (21 Apr): characterised alongside Grossi as one of the two structurally strongest candidacies. <em>PassBlue, Foreign Policy</em><br>
+        <strong>Bachelet 🇨🇱</strong> — <strong>Yahoo News (Apr 2026, NEW):</strong> "Bachelet Sticks with Women's-Rights Defense in Face of US Opposition" — despite Republican pressure and Chile's March withdrawal, Bachelet maintains her platform without retreat. <strong>Devex (Apr 2026, NEW):</strong> "US Republican Lawmakers Ask Rubio to Block Michelle Bachelet's UN Bid" — formal veto request marks significant escalation of American opposition. Brazil and Mexico remain co-nominators. <em>Yahoo News, Devex</em><br>
+        <strong>Grossi 🇦🇷</strong> — <strong>PassBlue (29 Apr, NEW):</strong> "Rafael Grossi Faces the General Assembly" — detailed coverage of his April 21 dialogue. Pledged to treat SC as a "constant partner," committed to open-door office with regular town halls. CFR interview published on his "enlightened pragmatism" approach. Prediction markets place him at ~39.5% implied probability (Polymarket). <em>PassBlue, CFR, Polymarket</em><br>
+        <strong>Sall 🇸🇳</strong> — <strong>PassBlue (1 May, NEW):</strong> "Macky Sall Faces the General Assembly" — most recent PassBlue piece; detailed post-dialogue assessment from his April 22 afternoon session. <strong>IPI Global Observatory (Apr 2026):</strong> Sall identified as structurally weakest candidacy — nominated by one state, no AU backing, home government opposed. He continues courting the African Union despite its rejection. <em>PassBlue, IPI Global Observatory, The East African</em>
+      </div>
+
+    </div>
+  </div>
+  <!-- END DIGEST 5 May 2026 -->
+
+  <!-- ─── DIGEST: 20 April 2026 — Manual Supplemental ─── -->
+  <div style="border:2px solid #fd7e14;border-radius:8px;overflow:hidden;margin-bottom:28px">
+    <div style="background:#1a2744;color:#fff;padding:12px 20px;display:flex;justify-content:space-between;align-items:center">
+      <span style="font-family:Arial,sans-serif;font-size:13px;font-weight:700">20 April 2026</span>
+      <span style="font-family:Arial,sans-serif;font-size:11px;color:#fd7e14">Manual update — user-sourced material + supplemental scan</span>
+    </div>
+    <div style="padding:16px 20px;font-size:13px;line-height:1.75;color:#333">
+
+      <div style="margin-bottom:14px">
+        <span style="font-family:Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#fd7e14">📌 NEW INTEL — P5 Candidate Lobbying (LinkedIn-sourced)</span><br>
+        Two significant P5 lobbying moves surfaced from candidates' own LinkedIn posts — one already confirmed, one newly surfaced this update:
+
+        <div style="margin-top:10px;padding:10px 14px;background:#fff8f0;border-left:3px solid #fd7e14;border-radius:0 4px 4px 0">
+          <strong>🇷🇺 Grynspan → Russia (7 April 2026)</strong> — Grynspan confirmed on LinkedIn: <em>"On 7 April, I met with Foreign Minister Sergey Lavrov to exchange views on the future of the United Nations. We reaffirmed the importance of upholding the #UNCharter. I shared my perspective on how the Organization can refocus its efforts, strengthen its effectiveness, advance necessary reforms, and respond more directly to today's global challenges."</em> This is the only confirmed candidate-to-P5 FM bilateral meeting made public ahead of the dialogues. <em>Grynspan LinkedIn, ~13 Apr 2026</em>
+        </div>
+
+        <div style="margin-top:10px;padding:10px 14px;background:#fff8f0;border-left:3px solid #fd7e14;border-radius:0 4px 4px 0">
+          <strong>🇨🇳 Grossi → China (26 March 2026) — NEWLY SURFACED</strong> — Grossi's LinkedIn post (~30 Mar) and Chinese MFA/CGTN confirm he visited Beijing in late March and met FM <strong>Wang Yi</strong> on 26 March. Discussion covered multilateralism, UN's centrality amid "unprecedented tests," nuclear restraint, and the non-proliferation framework. Grossi confirmed IAEA's one-China policy commitment and readiness to cooperate on "hot-spot issues." He also met Assistant FM Liu Bin, CAEA Chairman Shan Zhongde (designated CNNC Medical as IAEA #RaysOfHope Anchor Centre, endorsed Harbin Engineering University under IAEA Nuclear Management Academy), visited China Nuclear Mining Technology Group labs, and met AIIB President Zou Jiayi to explore nuclear-science collaboration in health, agriculture, water, and energy. This trip combines operational IAEA business with unmistakeable SG race lobbying of the Chinese P5 veto. <em>Grossi LinkedIn; Chinese MFA; CGTN (26 Mar); Xinhua; IAEA.org</em>
+        </div>
+
+        <div style="margin-top:8px;font-size:12px;color:#555"><strong>Analytical note:</strong> Both Grynspan (Russia, 7 Apr) and Grossi (China, 26 Mar) have now conducted direct bilateral FM-level meetings with P5 veto-holders as part of their campaigns. No publicly confirmed equivalent meetings reported for Bachelet or Sall with P5 FMs to date. Grynspan's Hormuz/fertilizer position (see below) may have been a deliberate precursor to the Lavrov meeting.</div>
+      </div>
+
+      <div style="margin-bottom:14px;border-top:1px solid #f0f0f0;padding-top:12px">
+        <span style="font-family:Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#fd7e14">🌐 Grynspan — Strait of Hormuz / Fertilizer Position (March 30, LinkedIn)</span><br>
+        Grynspan posted on LinkedIn (~30 Mar, 3 weeks before today): <em>"I welcome United Nations efforts to facilitate trade through the Strait of #Hormuz. As I have said before, with global food security at risk, a mechanism to facilitate trade in fertilizers through the Strait could be a very valuable step to wider diplomatic dialogue."</em> This supplements and confirms her earlier March 25 LinkedIn post (already in the Issues tab) proposing a "targeted diplomatic effort" on Hormuz. Her consistent framing — fertilizer, food security, diplomatic off-ramp — contrasts with the other candidates who have not publicly addressed the Strait issue. <em>Grynspan LinkedIn, ~30 Mar 2026</em>
+      </div>
+
+      <div style="margin-bottom:14px;border-top:1px solid #f0f0f0;padding-top:12px">
+        <span style="font-family:Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#fd7e14">📋 Grynspan Vision Statement — Key Pillars (UN.org, filed March 2026)</span><br>
+        Grynspan's formal vision statement (filed as document A/80/xxx, available at UN.org) sets out three pillars: (1) <strong>"Infrastructure for Peace"</strong> — refocusing on durable peace and security; (2) <strong>"Partner of Choice"</strong> — making the UN more useful, agile and accountable; (3) <strong>Building the Future</strong>. Central framing: <em>"If elected Secretary-General, my task will be to chart a path of renewal... The UN's role is not to impose the world's direction, but to widen the space for joint action; not to abolish disagreement but to find common ground; to help craft solutions, not to dictate them."</em> Her Black Sea Grain Initiative experience — which enabled export of 32 million tons of grain, reduced global food prices 22%, and staved off mass food insecurity — is cited as a key credential for her "practical diplomatic" profile. <em>UN.org vision statement, March 2026</em>
+      </div>
+
+      <div style="margin-bottom:14px;border-top:1px solid #f0f0f0;padding-top:12px">
+        <span style="font-family:Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#fd7e14">📰 Pre-Dialogue Media Surge — April 20 (Dialogue Eve)</span><br>
+        A major wave of international coverage broke today ahead of tomorrow's interactive dialogues, suggesting the race is entering mainstream media consciousness:<br>
+        <strong>Boston Globe / AP (20 Apr):</strong> "Four candidates for UN secretary-general audition this week. That's far fewer than in 2016." — Contextualises the 2026 field (4 candidates) against the 2016 race (13 candidates). Recaps Bachelet's Chile withdrawal, Grossi's IAEA retention, Grynspan's UNCTAD step-down, Sall's AU rejection. Frames next SG as inheriting "mounting financial pressure and unpaid contributions from key member states." (Widely syndicated: News4Jax, Caledonian Record, WSLS, Regional Media News) <em>Boston Globe/AP, 20 Apr</em><br>
+        <strong>The National (UAE, 20 Apr):</strong> "Race to lead the UN: Four candidates seek world's top diplomatic post" — Profiling piece emphasising the geopolitical significance of the choice for the Middle East region. <em>The National, 20 Apr</em><br>
+        <strong>Free Malaysia Today (20 Apr):</strong> "'Save humanity': 4 figures battling it out to lead embattled UN" — Focuses on the crisis-era framing of the SG race. <em>FMT, 20 Apr</em><br>
+        <strong>Pakistan Today / The Star (Kenya) / SDG Knowledge Hub (20 Apr):</strong> Additional pre-dialogue profiling coverage across Global South outlets. <em>Pakistan Today, The Star, IISD, 20 Apr</em>
+      </div>
+
+    </div>
+  </div>
+  <!-- END DIGEST 20 April 2026 Manual Supplemental -->
+
+  <!-- ─── DIGEST: 20 April 2026 ─── -->
+  <div style="border:2px solid #009EDB;border-radius:8px;overflow:hidden;margin-bottom:28px">
+    <div style="background:#1a2744;color:#fff;padding:12px 20px;display:flex;justify-content:space-between;align-items:center">
+      <span style="font-family:Arial,sans-serif;font-size:13px;font-weight:700">20 April 2026</span>
+      <span style="font-family:Arial,sans-serif;font-size:11px;color:#aab4c4">Scheduled run — Monday</span>
+    </div>
+    <div style="padding:16px 20px;font-size:13px;line-height:1.75;color:#333">
+
+      <div style="margin-bottom:14px">
+        <span style="font-family:Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#009EDB">🆕 New / Potential Candidates</span><br>
+        No new names surfaced this cycle. Field confirmed at <strong>4 active candidates</strong>: Grossi, Bachelet, Grynspan, Sall. Virginia Gamba withdrawal remains final (Maldives withdrew nomination 26–27 Mar). Nominally the April 1 deadline has now passed with no new entrants. Speculated names (Mia Mottley, Alicia Bárcena, Jacinda Ardern, Kristalina Georgieva) did not materialise. <em>Wikipedia, 1 for 8 Billion, WithinNigeria (12 Apr)</em>
+      </div>
+
+      <div style="margin-bottom:14px;border-top:1px solid #f0f0f0;padding-top:12px">
+        <span style="font-family:Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#009EDB">🏛️ P5 Positioning &amp; Endorsements</span><br>
+        <strong>🇷🇺 Russia</strong> — No formal endorsement. <strong>Key signal:</strong> Grynspan traveled to Moscow on <strong>7 April</strong> to meet FM Sergey Lavrov — a significant diplomatic overture, confirming she is actively lobbying the Russian veto. Russia and China jointly vetoed a Gulf States UNSC draft resolution on maritime safety in the Strait of Hormuz (7 Apr), a reminder of Russia's continued willingness to act unilaterally. Russian state media continues to frame the race favourably toward Grossi. <em>PassBlue (7 Apr), UN Press SC16330</em><br>
+        <strong>🇨🇳 China</strong> — No specific SG endorsement surfaced. Co-vetoed the Strait of Hormuz UNSC resolution with Russia (7 Apr). No public statements on SG candidates found this cycle. <em>UN Press SC16330</em><br>
+        <strong>🇺🇸 US</strong> — No stated preference. Trump administration has not signaled a candidate; Amb. Elise Stefanik remains key US player. Most candidates are perceived as left-leaning, creating latent tension. No formal US statement found. <em>No new coverage</em><br>
+        <strong>🇫🇷 France / 🇬🇧 UK</strong> — No specific endorsements found this cycle. Both remain formally uncommitted. UK and France are noted as supportive in principle of selecting a woman but have made no public candidate statements. <em>No new coverage</em>
+      </div>
+
+      <div style="margin-bottom:14px;border-top:1px solid #f0f0f0;padding-top:12px">
+        <span style="font-family:Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#009EDB">⚙️ Process &amp; General Developments</span><br>
+        <strong>🔴 BREAKING — Interactive Dialogues Begin Tomorrow:</strong> All four candidates will face live questioning in the Trusteeship Council Chamber: <strong>Tuesday 21 Apr</strong>: Bachelet then Grossi; <strong>Wednesday 22 Apr</strong>: Grynspan then Sall. Sessions are 3 hours each, broadcast live on UN WebTV. Civil society questions were solicited March 24 – April 7. This is the first major public test of all candidates simultaneously. <em>UN PGA statement, UNGA letter 4 Mar 2026, Voice of Emirates (17 Apr)</em><br>
+        <strong>UN News (Apr 2026):</strong> "Gender, geography and powerbroking in play in race for next UN chief" — Race is being shaped by three competing dynamics: (1) the gender push for the UN's first female SG; (2) the Latin America regional rotation convention (Guterres served from Western Europe); (3) P5 power-brokering, complicated by gridlock over Gaza, Ukraine, and Iran. <em>UN News, 1167323</em><br>
+        <strong>IPI (Apr 2026):</strong> "From Pillar to Post: No Work, No Veto" — new analysis on veto dynamics in the SG selection process, framing July SC straw polls as the key chokepoint. <em>International Peace Institute</em><br>
+        <strong>CIC/NYU:</strong> "Selecting the Next UN Secretary-General: Ultimate Test for Multilateralism" — policy piece outlining 5 next steps; SC straw polls expected end of July 2026. <em>CIC NYU</em><br>
+        Timeline: <strong>21–22 Apr</strong> (interactive dialogues, UN WebTV live) · <strong>end July</strong> (SC informal straw polls, closed) · <strong>Autumn 2026</strong> (formal SC recommendation + GA appointment) · <strong>1 Jan 2027</strong> (new SG takes office).
+      </div>
+
+      <div style="border-top:1px solid #f0f0f0;padding-top:12px">
+        <span style="font-family:Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#009EDB">📌 Candidate Updates</span><br>
+        <strong>Grynspan 🇨🇷</strong> — <strong>PassBlue (7 Apr, NEW):</strong> "Grynspan Aims for the High Road in Her UN Secretary-General Race" — Grynspan has stepped down from UNCTAD in compliance with UNGA Resolution 79/327 and is campaigning full-time. On 7 April, she traveled to Moscow to meet FM Lavrov — a high-stakes P5 lobbying move. Framed as "taking the high road" by not using UNCTAD resources. Geneva Solutions profiles her as "the UN's future first female leader?" Seen by multiple outlets as the current frontrunner among the Latin American women candidates. <em>PassBlue, Geneva Solutions</em><br>
+        <strong>Bachelet 🇨🇱</strong> — No major new articles this cycle. Brazil and Mexico remain as co-sponsors; Chile (President Kast) withdrew 24 Mar. Bachelet is expected to be prominent in the April 21 interactive dialogue — her first major head-to-head public moment with Grossi. Strong human-rights narrative continues. Her OHCHR Xinjiang report is a known potential P5 vulnerability with China. <em>No new coverage this cycle</em><br>
+        <strong>Grossi 🇦🇷</strong> — <strong>Buenos Aires Times (recent):</strong> "Rafael Grossi Lays Out Bold Reformist Vision for Malfunctioning United Nations" — Grossi has continued articulating a strong reform agenda ("bold reformist vision") while retaining the IAEA Director-General post. He warns of a "fragmented and volatile" world. Strong European backing remains. He faces the April 21 dialogue as an opportunity to project the crisis-manager image. <em>Buenos Aires Times, Argentina Reports</em><br>
+        <strong>Sall 🇸🇳</strong> — <strong>Morocco World News (Mar 2026):</strong> Sall is pressing ahead despite AU Commission refusal to endorse and Senegal's own non-endorsement (March 27 note from Senegal's mission). <strong>The East African:</strong> "AU's Credibility Test as Macky Sall's Bid for UN Top Seat Roils Africa" — AU divisions exposed, with critics arguing Sall's unilateral run undermines AU authority. Formal nomination remains via Burundi only. <em>Morocco World News, The East African, APAnews</em>
+      </div>
+
+    </div>
+  </div>
+  <!-- END DIGEST 20 April 2026 -->
+
+  <!-- ─── DIGEST: 30 March 2026 ─── -->
+  <div style="border:1px solid #e0e4e8;border-radius:8px;overflow:hidden;margin-bottom:28px">
+    <div style="background:#1a2744;color:#fff;padding:12px 20px;display:flex;justify-content:space-between;align-items:center">
+      <span style="font-family:Arial,sans-serif;font-size:13px;font-weight:700">30 March 2026</span>
+      <span style="font-family:Arial,sans-serif;font-size:11px;color:#aab4c4">Scheduled run — Monday</span>
+    </div>
+    <div style="padding:16px 20px;font-size:13px;line-height:1.75;color:#333">
+
+      <div style="margin-bottom:14px">
+        <span style="font-family:Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#009EDB">🆕 New / Potential Candidates</span><br>
+        <strong>Virginia Gamba</strong> — now confirmed WITHDRAWN (Maldives withdrew nomination 26–27 Mar). Was 5th declared candidate; candidacy ended without explanation. Field narrows to 4 nominally active candidates: Grossi, Bachelet, Grynspan, Sall. <em>IBC World News / Social News XYZ, March 26–27</em><br>
+        <span style="color:#888;font-size:12px">No new formal nominations this cycle. Tentative April 1 deadline for new candidacy announcements approaching. Ian Richards (LinkedIn, ~28 Mar) flagged that "other candidates may emerge" and noted historical dark-horse precedents. Speculated but not nominated: Mia Mottley, Alicia Bárcena, Jacinda Ardern, Kristalina Georgieva. Still no new entrants confirmed.</span>
+      </div>
+
+      <div style="margin-bottom:14px;border-top:1px solid #f0f0f0;padding-top:12px">
+        <span style="font-family:Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#009EDB">🏛️ P5 Positioning &amp; Endorsements</span><br>
+        <strong>🇺🇸 US</strong> — Chile's 24 Mar withdrawal of Bachelet support was explicitly linked in multiple outlets (UPI, France 24) to new President Kast's alignment with the Trump administration. Widely read as an indirect US signal against Bachelet's candidacy. No formal US endorsement. Amb. Elise Stefanik remains key US player. <em>UPI, France 24</em><br>
+        <strong>🇷🇺 Russia</strong> — No new statements this cycle. Feb/Mar position stands: skeptical of gender as "decisive criterion"; new SG must account for Russian concerns on Ukraine. Russian state media (Izvestia) still frames race as Grossi vs. remaining field. <em>Izvestia (carried)</em><br>
+        <strong>🇨🇳 China / 🇫🇷 France / 🇬🇧 UK</strong> — No significant new statements or endorsements surfaced this cycle for any of these three P5 members. All formally uncommitted. <em>No new coverage</em>
+      </div>
+
+      <div style="margin-bottom:14px;border-top:1px solid #f0f0f0;padding-top:12px">
+        <span style="font-family:Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#009EDB">⚙️ Process &amp; General Developments</span><br>
+        <strong>PassBlue (26 Mar):</strong> "Will the Next UN Leader Shatter the Glass Ceiling but Fall Off the Glass Cliff?" — Op-ed argues that the next SG may be a woman not as a sign of progress but because the UN is entering acute institutional crisis (the "glass cliff" phenomenon). <em>PassBlue</em><br>
+        <strong>PassBlue (27 Mar):</strong> Weekly roundup explicitly flags "SecGen Race Upsets" — referring to the Bachelet/Gamba withdrawals and AU rejection of Sall in a single week. <em>PassBlue</em><br>
+        <strong>Ian Richards (LinkedIn, ~28 Mar):</strong> "This race has had plenty of ups and downs." Summarises the week: Chile pulled Bachelet, Maldives pulled Gamba, AU Bureau's silence procedure failed on Sall with ~22 objections in 24 hours. Key open questions: Will AU back a new candidate (possibly a woman)? Will new dark-horse candidates emerge before April 1?<br>
+        Timeline: <strong>April 1</strong> (tentative deadline for new candidacy announcements) · <strong>April 20 week</strong> (public interactive dialogues) · <strong>July</strong> (SC straw polls) · <strong>Autumn 2026</strong> (appointment expected) · <strong>1 Jan 2027</strong> (new SG takes office). <em>UN.org</em>
+      </div>
+
+      <div style="border-top:1px solid #f0f0f0;padding-top:12px">
+        <span style="font-family:Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#009EDB">📌 Candidate Updates</span><br>
+        <strong>Grynspan 🇨🇷</strong> — Bid described as "surging" following Bachelet's home-country withdrawal. Multiple outlets frame her as now the lead Latin American woman candidate. Has taken full leave from UNCTAD to campaign full-time. No new formal endorsements documented. <em>Ticos Land, Geneva Solutions</em><br>
+        <strong>Bachelet 🇨🇱</strong> — <strong>Chile (President Kast) withdrew support 24 Mar.</strong> Brazil and Mexico remain co-sponsors. Bachelet stated: "My willingness to contribute to this challenge remains unchanged." Former Chilean foreign ministers rallied behind her, criticising Kast's decision. Her candidacy is technically alive but structurally weakened without her home country. <em>UPI, France 24, El Ciudadano, Buenos Aires Times</em><br>
+        <strong>Grossi 🇦🇷</strong> — <strong>PassBlue (16 Mar, still dominant story):</strong> Retaining IAEA Director-General post during campaign, in contrast to Grynspan who stepped aside from UNCTAD. Drawing scrutiny over conflict of interest. Laid out bold reformist vision stressing engagement with BRICS, G20, SCO. Italy and Paraguay listed as endorsers. Remains a leading candidate. <em>PassBlue, Buenos Aires Times, World Nuclear News</em><br>
+        <strong>Sall 🇸🇳</strong> — <strong>AU endorsement attempt failed 27 Mar.</strong> 20+ of 55 AU members objected to AU Bureau's silence procedure; the African Union will NOT officially endorse him. His own government (Senegal) never backed the nomination. IMF review confirmed inaccuracies in budget/debt reporting under his presidency, which critics cite to oppose his candidacy. Sall says he continues. AU divisions exposed Rwanda-Burundi tensions as subtext. <em>APAnews, Amani Africa, Morocco World News, Seneweb, Taarifa.rw</em><br>
+        <strong>Gamba 🇦🇷</strong> — <strong>Withdrawn 26–27 Mar.</strong> Maldives withdrew nomination without explanation. Candidacy ended. <em>IBC World News, Social News XYZ</em>
+      </div>
+
+    </div>
+  </div>
+  <!-- END DIGEST 30 March 2026 -->
+
+  <!-- ─── DIGEST: 24 March 2026 ─── -->
+  <div style="border:1px solid #e0e4e8;border-radius:8px;overflow:hidden;margin-bottom:28px">
+    <div style="background:#1a2744;color:#fff;padding:12px 20px;display:flex;justify-content:space-between;align-items:center">
+      <span style="font-family:Arial,sans-serif;font-size:13px;font-weight:700">24 March 2026</span>
+      <span style="font-family:Arial,sans-serif;font-size:11px;color:#aab4c4">Scheduled run — Tuesday</span>
+    </div>
+    <div style="padding:16px 20px;font-size:13px;line-height:1.75;color:#333">
+
+      <div style="margin-bottom:14px">
+        <span style="font-family:Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#009EDB">🆕 New / Potential Candidates</span><br>
+        No new formal nominations this cycle. <strong>Nominations close 1 April 2026</strong> — 8 days away. Field holds at <strong>5 declared candidates</strong>: Grossi, Bachelet, Grynspan, Macky Sall, Virginia Gamba. Still speculated but not nominated: Mia Mottley, Alicia Bárcena (has "not discarded" running per <em>Mexico News Daily</em> but no campaign launched), Jacinda Ardern, Kristalina Georgieva. <em>Mexico News Daily, 1 for 8 Billion</em>
+      </div>
+
+      <div style="margin-bottom:14px;border-top:1px solid #f0f0f0;padding-top:12px">
+        <span style="font-family:Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#009EDB">🏛️ P5 Signals</span><br>
+        <strong>🇷🇺 Russia</strong> — No new statements this cycle. Feb 26 position stands: autumn 2026 confirmation expected; new SG must adhere to UN Charter and take Ukraine war into account. Russian media continues to frame race as primarily Grossi vs. Bachelet. <em>TASS, Izvestia (carried)</em><br>
+        <strong>🇨🇳 China</strong> — CGTN (24 Mar): Chinese Vice President Han Zheng met with senior UN officials in Nairobi this week. Not explicitly about the SG race but represents China's highest-level UN engagement in the current period, days before nominations close. <em>CGTN</em><br>
+        <strong>🇺🇸 US / 🇫🇷 France / 🇬🇧 UK</strong> — No new statements or endorsements surfaced this cycle. All three remain formally uncommitted. <em>No new coverage</em>
+      </div>
+
+      <div style="margin-bottom:14px;border-top:1px solid #f0f0f0;padding-top:12px">
+        <span style="font-family:Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#009EDB">⚙️ Process</span><br>
+        <strong>PassBlue (22 Mar):</strong> "UN Secretary-General Race: Financial Disclosures, an Explainer" — financial disclosure requirements now in effect for 2026 SG candidates; PassBlue provides new explainer on this transparency mechanism. Individual disclosures not yet fully surfaced in open reporting. <em>PassBlue</em><br>
+        Timeline: nominations close <strong>1 Apr</strong> · interactive dialogues <strong>week of 20 Apr</strong> · SC straw polls begin <strong>end of July</strong> · appointment expected <strong>autumn 2026</strong> · new SG takes office <strong>1 Jan 2027</strong>. <em>UN.org</em><br>
+        CIC/NYU analysis frames the selection as "the ultimate test for multilateralism" — P5 veto dynamics remain the central structural uncertainty. Latin American rotation convention widely expected to hold. <em>CIC NYU</em>
+      </div>
+
+      <div style="border-top:1px solid #f0f0f0;padding-top:12px">
+        <span style="font-family:Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#009EDB">📌 Candidate Updates</span><br>
+        <strong>Grossi</strong> — No new articles this cycle. March 16 PassBlue piece (conflict-of-interest/IAEA retention) remains dominant Grossi storyline. No new campaign statements. <em>PassBlue (carried)</em><br>
+        <strong>Bachelet</strong> — No new articles this cycle. France 24 Feb 2 nomination coverage remains most recent. No new campaign statements. <em>France 24 (carried)</em><br>
+        <strong>Grynspan</strong> — No new articles this cycle. Last update: nominated 3 Mar, stepped aside from UNCTAD. Positioned as consensus multilateralist candidate. <em>Tico Times (carried)</em><br>
+        <strong>Sall</strong> — <strong>Atalayar (6 Mar):</strong> Describes Sall as "ally of Morocco" and the "only African candidate" — frames his candidacy partly through his regional alignment. Confirms again he is <strong>not AU-officially endorsed</strong>; Burundi nomination was unilateral. Former AU Commission Chair Moussa Faki Mahamat personal endorsement (10 Mar) is his strongest African institutional backing. Domestic opposition in Senegal continues. <em>Atalayar, Amani Africa</em><br>
+        <strong>Virginia Gamba</strong> — No new articles this cycle. Last update: nominated by Maldives 11 Mar; second Argentine in field; long-shot framing. <em>Buenos Aires Times (carried)</em>
+      </div>
+
+    </div>
+  </div>
+  <!-- END DIGEST 24 March 2026 -->
+
+  <!-- ─── DIGEST: 17 March 2026 ─── -->
+  <div style="border:1px solid #e0e4e8;border-radius:8px;overflow:hidden;margin-bottom:28px">
+    <div style="background:#1a2744;color:#fff;padding:12px 20px;display:flex;justify-content:space-between;align-items:center">
+      <span style="font-family:Arial,sans-serif;font-size:13px;font-weight:700">17 March 2026</span>
+      <span style="font-family:Arial,sans-serif;font-size:11px;color:#aab4c4">Scheduled run — Tuesday</span>
+    </div>
+    <div style="padding:16px 20px;font-size:13px;line-height:1.75;color:#333">
+
+      <div style="margin-bottom:14px">
+        <span style="font-family:Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#009EDB">🆕 New / Potential Candidates</span><br>
+        No new nominations this cycle. Field stands at <strong>5 candidates</strong>: Grossi, Bachelet, Grynspan, Macky Sall, Virginia Gamba. Nominations close <strong>1 April 2026</strong>. Additional speculative names (Mia Mottley, Alicia Bárcena, Jacinda Ardern, Kristalina Georgieva) remain unconfirmed. <em>UN.org, 1 for 8 Billion</em>
+      </div>
+
+      <div style="margin-bottom:14px;border-top:1px solid #f0f0f0;padding-top:12px">
+        <span style="font-family:Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#009EDB">🏛️ P5 Signals</span><br>
+        <strong>🇷🇺 Russia</strong> — TASS/Russian MFA (Feb 26): formal SG confirmation expected in <strong>autumn 2026</strong>; Russia will demand "real measures to correct the geographical and political balance" from any candidate; flagged as skeptical of the women-SG push. Russian state media (Izvestia, Mar 13) frames the race as primarily between Grossi and Bachelet — coverage notably favorable toward Grossi. <em>TASS, Izvestia</em><br>
+        <strong>🇺🇸 US</strong> — No formal position surfaced this cycle. Analysts note Trump administration has not signaled preference; Amb. Elise Stefanik remains key US player at UNSC. Most candidates perceived as left-leaning. <em>Fox News analysis</em><br>
+        <strong>🇫🇷 France / 🇬🇧 UK</strong> — No specific candidate endorsements surfaced this cycle. Both P5 members are known to support in principle selecting a woman but have made no formal public statements. <em>No new coverage</em><br>
+        <strong>🇨🇳 China</strong> — No public statements surfaced this cycle. <em>No new coverage</em>
+      </div>
+
+      <div style="margin-bottom:14px;border-top:1px solid #f0f0f0;padding-top:12px">
+        <span style="font-family:Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#009EDB">⚙️ Process</span><br>
+        Interactive dialogues with all candidates confirmed for <strong>week of 20 April 2026</strong>. SC to begin formal selection by <strong>end of July 2026</strong>. Russian MFA expects autumn confirmation. Nominations close <strong>1 April 2026</strong>. <em>UN.org, TASS</em>
+      </div>
+
+      <div style="border-top:1px solid #f0f0f0;padding-top:12px">
+        <span style="font-family:Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#009EDB">📌 Candidate Updates</span><br>
+        <strong>Grossi</strong> — <strong>PassBlue (16 Mar, NEW):</strong> "Grossi Holds On to His Nuclear Agency Job While Running for UN Boss" — Grossi is <em>not</em> stepping aside from IAEA Director-General role, in contrast to Grynspan who left UNCTAD. Raises scrutiny over divided attention and conflicts of interest. He has also published a "bold reformist vision" stressing engagement with BRICS, G20 and SCO. <em>PassBlue, Buenos Aires Times</em><br>
+        <strong>Bachelet</strong> — Nominated 2 Feb by Chile, Brazil &amp; Mexico. Frames as "first woman" historic candidacy. Grossi and Bachelet cited as two main contenders in most international coverage. <em>PassBlue, France 24, Izvestia</em><br>
+        <strong>Grynspan</strong> — Nominated 3 Mar; stepped aside from UNCTAD to avoid conflict of interest. Positioned as consensus multilateralist candidate. <em>Tico Times, Geneva Solutions</em><br>
+        <strong>Sall</strong> — Domestic opposition intensifying: Senegal's government stated it was "not involved" in Burundi's nomination. PASTEF ruling party members and civil society groups oppose bid. Victims of 2021/2024 political violence under Sall accuse him of seeking UN post to avoid accountability. Former AU Commission Chair Moussa Faki Mahamat endorsed him (10 Mar). Confirmed: <strong>not officially AU-endorsed</strong>. <em>Africanews, Amani Africa, CGTN, APAnews</em><br>
+        <strong>Virginia Gamba</strong> — Nominated 11 Mar by Maldives; second Argentine in field. Former UN USG (Children &amp; Armed Conflict) and OPCW head. Gave interview signaling Malta as "great interpreter" role. <em>Buenos Aires Times, MaltaToday</em>
+      </div>
+
+    </div>
+  </div>
+  <!-- END DIGEST 17 March 2026 -->
+
+  <!-- ─── DIGEST: 16 March 2026 ─── -->
+  <div style="border:1px solid #e0e4e8;border-radius:8px;overflow:hidden;margin-bottom:28px">
+    <div style="background:#1a2744;color:#fff;padding:12px 20px;display:flex;justify-content:space-between;align-items:center">
+      <span style="font-family:Arial,sans-serif;font-size:13px;font-weight:700">16 March 2026</span>
+      <span style="font-family:Arial,sans-serif;font-size:11px;color:#aab4c4">Manual run</span>
+    </div>
+    <div style="padding:16px 20px;font-size:13px;line-height:1.75;color:#333">
+
+      <div style="margin-bottom:14px">
+        <span style="font-family:Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#009EDB">🆕 New Candidate</span><br>
+        <strong>Virginia Gamba (Argentina)</strong> formally nominated by the Maldives on 11 March — 5th declared candidate. Former USG for Children &amp; Armed Conflict and Prevention of Genocide. <em>Buenos Aires Times, BERNAMA</em><br>
+        <span style="color:#888;font-size:12px">Still speculated but not nominated: Mia Mottley, Alicia Bárcena, Jacinda Ardern, Kristalina Georgieva. <em>1 for 8 Billion</em></span>
+      </div>
+
+      <div style="margin-bottom:14px;border-top:1px solid #f0f0f0;padding-top:12px">
+        <span style="font-family:Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#009EDB">🏛️ P5 Signals</span><br>
+        <strong>🇷🇺 Russia</strong> — FM Logvinov: new SG must adhere to UN Charter and "duly take Russian concerns on Ukraine into account." Sceptical of women-SG push; wary of candidates with Western ties despite Global South origins. <em>Anadolu Agency, Izvestia</em><br>
+        <strong>🇺🇸 US</strong> — Analysts urge Trump administration to "go on offense." Most candidates seen as left-leaning. Amb. Elise Stefanik key player. No formal position yet. <em>Fox News</em>
+      </div>
+
+      <div style="margin-bottom:14px;border-top:1px solid #f0f0f0;padding-top:12px">
+        <span style="font-family:Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#009EDB">⚙️ Process</span><br>
+        Interactive dialogues with all candidates: week of 20 April 2026. SC to begin formal selection by end of July 2026. <em>UN official</em><br>
+        PassBlue (9 Mar): "Not Any Person. Not Any Woman. Not Any Man." — debate on whether gender alone should drive selection.
+      </div>
+
+      <div style="border-top:1px solid #f0f0f0;padding-top:12px">
+        <span style="font-family:Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#009EDB">📌 Candidate Updates</span><br>
+        <strong>Sall</strong> — Amani Africa: Burundi's nomination was unilateral, Sall is <strong>not</strong> officially AU-endorsed. Former AU Commission Chair Moussa Faki Mahamat endorsed him (10 Mar); former US Asst Sec Herman J. Cohen also backing him. <em>Amani Africa, CGTN, Atalayar</em><br>
+        <strong>Grossi</strong> — profiles "bold reformist vision," stresses need to engage BRICS, G20, Shanghai Cooperation Organization. <em>Buenos Aires Times</em><br>
+        <strong>Grynspan</strong> — formally resubmitted nomination 3 Mar; stepped aside from UNCTAD duties. <em>Tico Times</em>
+      </div>
+
+    </div>
+  </div>
+  <!-- END DIGEST 16 March 2026 -->
+
+  <div class="note"><strong>How this is updated:</strong> This tab is refreshed automatically by a scheduled agent that sweeps news on each candidate and the selection process. Each digest is prepended — most recent first. Last updated: 4 June 2026.</div>
+</div>
+
+
+</div><!-- /content -->
+<script>
+function showTab(id,btn){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('nav.tabs button').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>
